@@ -1,0 +1,18 @@
+.BoardForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 100%; */
+}
+
+
+.inputBox {
+    /* flex: 1; */
+    
+}
+
+
+.searchBtn {
+    /* flex: 1; */
+    
+}
