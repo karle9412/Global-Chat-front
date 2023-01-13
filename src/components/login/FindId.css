@@ -1,0 +1,78 @@
+.findIdDiv {
+    width: 60%;
+    height: 90%;
+    margin: auto;
+}
+
+
+.findIdForm {
+    border-radius: 1rem;
+    border: solid 1px #000;
+    width: 50%;
+    height: 80%;
+    display: inline-block;
+
+}
+
+.hr {
+    margin-bottom: 2rem;
+}
+
+.h3 {
+    margin-top: 2rem;
+    text-align: center;
+    
+
+}
+
+.telBox {
+    position: relative;
+    margin: auto;
+    width: 80%;
+    height: 5%;
+    display: flex;
+    border-radius: 5px;
+    border: solid 1px #000;
+    
+    
+}
+
+.authBox {
+    position: relative;
+    margin: auto;
+    width: 80%;
+    height: 5%;
+    display: flex;
+    border-radius: 5px;
+    border: solid 1px #000;
+}
+
+.authBtn {
+     
+    white-space: nowrap;
+    text-align: center;
+    background-color: #dfb8b8;
+    border: none;
+}
+
+.authBtn2 {
+    
+    white-space: nowrap;
+    text-align: center;
+    background-color: #dfb8b8;
+    border: none;
+}
+
+.boxDiv {
+    display: inline-flex;
+    margin-bottom: 2rem;
+}
+
+.boxDiv2 {
+    display: inline-flex;
+}
+
+.boxDiv3 {
+    text-align: center;
+    margin-top: 2rem;
+}
