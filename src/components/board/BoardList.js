@@ -14,7 +14,7 @@ const BoardList = () => {
 
 
     useEffect(() => {
-        axios.get('/board/list')
+        axios.get('/board/list/0')
         .then((res) => {
             setAlldataList(res.data)
             console.log(res.data)})

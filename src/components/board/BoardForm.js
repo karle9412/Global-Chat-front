@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { authheader } from "../../service/ApiService";
 import './boardCss/BoardForm.css';
 import WriteModal from "./WriteModal";
@@ -12,11 +12,12 @@ const BoardForm = ({value, onChange, onSearchBtnClick}) => {
         setModalOpen(!modalOpen);
     };
 
-    
+
     return(
         <div className="BoardForm">
             <div className="inputBox">
                 <input
+                    className="searchInput"
                     type='text'
                     value={value}
                     onChange={onChange} />

@@ -3,7 +3,7 @@ import usefetch from "../../hooks/usefetch";
 import axios from "axios";
 import "./reply.css"
 
-const ReplyUserImg = (email) => {
+const UserImg = (email) => {
   const [img, setImg] = useState([]);
 
   useEffect(()=> {
@@ -22,17 +22,15 @@ const ReplyUserImg = (email) => {
 
   return(
     <>
-    <div className="box">
     {img.length !== 0 && (
         <img
         className="profile"
           src={"resource/" + img.data.filename}
         />)
       }
-      </div>
       </>
   )
 
 }
 
-export default ReplyUserImg
+export default UserImg

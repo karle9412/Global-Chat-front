@@ -13,8 +13,12 @@ const ChatRoom = () => {
         connected: false,
         message: ''
       });
+
     useEffect(() => {
       console.log(userData);
+      console.log("프라이빗 챗")
+      console.log(privateChats)
+      console.log(tab)
     }, [userData]);
 
     const connect =()=>{
@@ -31,6 +35,7 @@ const ChatRoom = () => {
     }
 
     const userJoin=()=>{
+        console.log("순서확인 중 1")
           var chatMessage = {
             senderName: userData.username,
             status:"JOIN"
@@ -40,6 +45,7 @@ const ChatRoom = () => {
 
     const onMessageReceived = (payload)=>{
         var payloadData = JSON.parse(payload.body);
+        console.log(payloadData)
         switch(payloadData.status){
             case "JOIN":
                 if(!privateChats.get(payloadData.senderName)){
@@ -55,7 +61,6 @@ const ChatRoom = () => {
     }
     
     const onPrivateMessage = (payload)=>{
-        console.log(payload);
         var payloadData = JSON.parse(payload.body);
         if(privateChats.get(payloadData.senderName)){
             privateChats.get(payloadData.senderName).push(payloadData);
@@ -74,10 +79,12 @@ const ChatRoom = () => {
     }
 
     const handleMessage =(event)=>{
+        console.log("순서확인 중 2")
         const {value}=event.target;
         setUserData({...userData,"message": value});
     }
     const sendValue=()=>{
+        console.log("순서확인 중 4")
             if (stompClient) {
               var chatMessage = {
                 senderName: userData.username,
@@ -91,6 +98,7 @@ const ChatRoom = () => {
     }
 
     const sendPrivateValue=()=>{
+        console.log("순서확인 중 5")
         if (stompClient) {
           var chatMessage = {
             senderName: userData.username,
@@ -116,9 +124,10 @@ const ChatRoom = () => {
     const registerUser=()=>{
         connect();
     }
+
     return (
     <div className="container">
-        {userData.connected?
+        {userData.connected ?
         <div className="chat-box">
             <div className="member-list">
                 <ul>

@@ -1,5 +1,5 @@
 .findIdDiv {
-    width: 60%;
+    width: 80%;
     height: 90%;
     margin: auto;
 }
@@ -9,7 +9,7 @@
     border-radius: 1rem;
     border: solid 1px #000;
     width: 50%;
-    height: 80%;
+    height: auto;
     display: inline-block;
 
 }
@@ -61,7 +61,21 @@
     text-align: center;
     background-color: #dfb8b8;
     border: none;
+    cursor: pointer;
 }
+
+.authBtn3 {
+    
+   width: 50px;
+   height: 30px;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #dfb8b8;
+    border: none;
+    cursor: pointer;
+}
+    
+
 
 .boxDiv {
     display: inline-flex;
@@ -70,9 +84,11 @@
 
 .boxDiv2 {
     display: inline-flex;
+    margin-bottom: 20px;
 }
 
 .boxDiv3 {
     text-align: center;
     margin-top: 2rem;
+    margin-bottom: 50px;
 }

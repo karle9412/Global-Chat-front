@@ -13,6 +13,7 @@ const Passwd = ({ value, onChange }) => {
         required
         fullWidth
         id="password"
+        type="password"
         label="비밀번호"
         name="password"
         autoComplete="password"

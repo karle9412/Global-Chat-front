@@ -72,3 +72,8 @@ export function authheader(){
   const token = localStorage.getItem('ACCESS_TOKEN');
   return axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
+
+// export function wsheader(){
+//   const token = localStorage.getItem('ACCESS_TOKEN');
+//   return SockJS.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+// }

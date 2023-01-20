@@ -1,10 +1,13 @@
 import { TextField } from "@material-ui/core"
+import axios from "axios";
 import React from "react"
+import { useState } from "react"
 
 const UserName = ({ value, onChange }) => {
-
+  
   const UserNameChangeInput = (event) => {
     onChange(event.target.value)
+
   }
 
   return (
@@ -20,6 +23,7 @@ const UserName = ({ value, onChange }) => {
         style={{ width: '80%' }}
         value={value}
         onChange={(value) => UserNameChangeInput(value)} />
+        
     </div>
   )
 }
