@@ -17,6 +17,7 @@ const ChatRoomTest = () => {
     connected: false,
     message: ''
   });
+  
   const [tab, setTab] = useState('check')
 
   useEffect(() => {

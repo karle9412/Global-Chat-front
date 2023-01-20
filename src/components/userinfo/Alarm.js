@@ -1,8 +1,7 @@
-import { Button } from '@material-ui/core';
+
 import axios from 'axios';
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { authheader, getuser } from '../../service/ApiService';
+import React, {  useEffect  } from 'react';
+import { authheader } from '../../service/ApiService';
 import Switch from './Switch';
 import './Userinfo.css'
 
@@ -14,8 +13,6 @@ export default function Alarm() {
     const [value1, setValue1] = React.useState();
     const [value2, setValue2] = React.useState();
     const [value3, setValue3] = React.useState();
-
-    const [v,setV] = React.useState("");
 
     useEffect(() => {
         authheader()
@@ -37,7 +34,7 @@ export default function Alarm() {
         axios.get('/alarm',)
         .then(response => {
             console.log(response.data.allAlarm)
-            setV(response.data.allAlarm)
+          
             console.log(response.data)
             if( response.data.allAlarm === '1'){
                 setValue(true)
@@ -88,23 +85,6 @@ export default function Alarm() {
         };
     }
     
-//     function getuser() {
-//       authheader()
-//       axios.get('/user/getintro',)
-//           .then(response => {
-//               setUsername(response.data.username)
-//               console.log(response)
-//           })
-//           .catch(error => {
-//               alert("유저 정보 불러오기 실패")
-//               console.error(error);
-//           });
-//   }
-
-//   getuser()
-
-  
-
     
     return (
         <>

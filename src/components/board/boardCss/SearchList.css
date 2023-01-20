@@ -1,15 +1,70 @@
-.info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    box-sizing: border-box;
-    cursor: pointer;
-    margin-bottom: 30px;
+.boardInfo, .infoInModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  /* margin-bottom: 30px; */
+}
+
+hr {
+  width: 100%;
+}
+
+.boardInfo,
+.infoInModal {
+  display: flex;
+}
+
+.first-tab,
+.md-first-tab {
+  display: flex;
+  flex-direction: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.username,
+.md-username {
+  display: flex;
+  font-size: 1.4rem;
+  align-items: center;
+}
+
+.date,
+.md-date {
+  display: flex;
+  font-size: 0.8rem;
+  align-items: center;
+  margin-left: 15rem;
+  color: #bdbdbd;
+}
+
+.category,
+.md-category {
+  display: flex;
+  font-size: 0.8rem;
+  align-items: center;
+  /* margin-left: 15rem; */
+  color: #bdbdbd;
+}
+
+.inContent,
+.md-inContent {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.like,
+.md-like {
+  display: flex;
+  margin-top: 1.5rem;
+  margin-right: auto;
 }

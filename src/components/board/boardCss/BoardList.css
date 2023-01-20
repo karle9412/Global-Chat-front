@@ -1,4 +1,9 @@
 .boardList {
+    display: flex;
     text-align: center;
     
+}
+
+.content {
+    width: 100%;
 }

@@ -1,35 +1,50 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useInView } from "react-intersection-observer";
 import axios from "axios";
 import SearchList from "./SearchList";
-import './boardCss/BoardList.css';
+import "./boardCss/BoardList.css";
 import { authheader } from "../../service/ApiService";
-
+import useIntersection from "../../hooks/useIntersection";
 
 const BoardList = () => {
-
-    authheader();
-
-    
-    const [allDataList, setAlldataList] = useState([]);
+  
+  authheader();
 
 
-    useEffect(() => {
-        axios.get('/board/list/0')
-        .then((res) => {
-            setAlldataList(res.data)
-            console.log(res.data)})
-        .catch((error)=>{console.log(error)})
-    }, []);
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-    return (
-        <div className="boardList">
-            <div className="content">
-                {allDataList.map((item) => (
-                    <SearchList key={item.bno} {...item} />
-                ))}
-            </div>
-        </div>
-    )
-}
+
+  const getItems = useCallback(async () => {
+    setLoading(true);
+    await axios
+      .get(`/board/list/${page}`)
+      .then((res) => {
+        setItems((prevState) => [...prevState, ...res.data]);
+      })
+      .catch((error) => {
+        setPage(0);
+      });
+    setLoading(false);
+  }, [page]);
+
+
+  const setObservationTarget = useIntersection(getItems);
+
+
+  return (
+    <div className="boardList">
+      <div className="content">
+        {items.map((item, idx) => (
+          <React.Fragment key={idx}>
+            <SearchList key={item.bno} {...item} />
+          </React.Fragment>
+        ))}
+        {!loading && <div ref={setObservationTarget}></div>}
+      </div>
+    </div>
+  );
+};
 
 export default BoardList;

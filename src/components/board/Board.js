@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
-import BoardForm from './BoardForm';
+import SearchInput from './SearchInput';
 import { authheader } from '../../service/ApiService';
 import SearchBoardList from './SearchBoardList';
 import BoardList from './BoardList';
-import Layout from '../Layout';
+import Header from '../Header';
 import '../board/boardCss/Board.css';
 
 
@@ -15,12 +15,12 @@ const Board = () => {
     const [searchItem, setSearchItem] = useState("");
     const [searchDataList, setSearchDataList] = useState([]);
 
+
     const handleChange = (e) => {
         setSearchItem(e.target.value);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleClick = () => {
         if(searchItem !== '') {
             axios.get(`/board/search/${searchItem}`)
             .then((res) => {
@@ -35,39 +35,40 @@ const Board = () => {
         }
     };
 
+    const activeEnter = (e) => {
+        if(e.key === 'Enter') {
+            if(searchItem !== '') {
+                handleClick();
+            } else {
+                alert('검색어를 입력해주세요.');
+            }
+        }
+    };
+
+
+
 
     return (
     <div className="Board">
 
-        <Layout>
+        <Header>
+            <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter}/>
+        </Header>
 
     {/* 친구 추천 리스트 */}
-        <div className='recommendFriends'>
+        {/* <div className='recommendFriends'>
             <h2>오늘의 친구를 만나보세요!</h2>
-        </div>
-        
-    {/* 검색 기능 */}
-        <div className='boardForm'>
-            <BoardForm 
-                value={searchItem}
-                onChange={handleChange}
-                onSearchBtnClick={handleSubmit} />
-        </div>
+        </div> */}
     
     {/* 게시글 목록 */}
-        <div>
-            { searchDataList.length > 0 ? <SearchBoardList searchDataList={searchDataList} /> : <BoardList /> }
+        <div className='showList'>
+            { searchDataList.length > 0 ? <SearchBoardList searchDataList={searchDataList} setSearchDataList={setSearchDataList} searchItem={searchItem}/> : <BoardList /> }
         </div>
         
-        {/* 댓글 목록 */}
-            {/* <div>
-               <h2>댓글목록</h2> 
-            </div> */}
-        </Layout>
+        
     </div>
     );
 }
 
 
 export default Board;
-
