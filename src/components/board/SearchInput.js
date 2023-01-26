@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { authheader } from "../../service/ApiService";
 import "./boardCss/SearchInput.css";
 import WriteModal from "./WriteModal";

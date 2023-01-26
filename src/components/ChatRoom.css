@@ -3,7 +3,8 @@
   border: solid 1px #000;
   width: max-content;
   height: max-content;
-  display: inline-flex;
+  display: inline-flex; 
+  margin: auto;
 }
 
 .friend-tab-img-box{
@@ -24,6 +25,26 @@
 .friend-tab{
   display: inline-block;
   max-width: 240px;
+}
 
+.chat-start{
+  margin: auto;
+}
+
+.chat-content{
+  border-left: 1px solid #000;
+}
+
+.chat-messages{
+  height: auto;
+}
+
+.friend-tab-name{
+  text-align: left;
+}
+
+.friend-tab-hr{
+  margin: auto;
+  margin-bottom: 5px;
   
 }

@@ -48,7 +48,7 @@ const SearchList = ({
           <div className="md-like">{boardLike}</div>
         </div>
 
-        <Reply bno={bno} />
+        <Reply bno={bno} check={"1"} />
       </DetailBoardModal>
 
       {/* 댓글 하나 */}
@@ -65,7 +65,7 @@ const SearchList = ({
         <div className="like">{boardLike}</div>
       </div>
       <div className="replyInfo">
-        <Reply bno={bno} />
+        <Reply bno={bno} check={"2"}/>
       </div>
       <hr />
     </div>

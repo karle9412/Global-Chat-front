@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import SearchInput from './SearchInput';
 import { authheader } from '../../service/ApiService';
@@ -51,9 +51,11 @@ const Board = () => {
     return (
     <div className="Board">
 
-        <Header>
-            <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter}/>
-        </Header>
+        <header>
+            <Header>
+                <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter}/>
+            </Header>
+        </header>
 
     {/* 친구 추천 리스트 */}
         {/* <div className='recommendFriends'>

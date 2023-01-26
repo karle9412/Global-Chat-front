@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useInView } from "react-intersection-observer";
 import axios from "axios";
 import SearchList from "./SearchList";
 import "./boardCss/BoardList.css";

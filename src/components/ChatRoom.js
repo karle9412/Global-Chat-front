@@ -1,191 +1,164 @@
 import React, { useEffect, useState } from 'react'
-import {over} from 'stompjs';
+import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import axios from 'axios';
+import UserImg from './Reply/UserImg';
+import './ChatRoom.css'
+import { authheader } from '../service/ApiService';
+import Header from './Header';
 
-var stompClient =null;
+var stompClient = null;
 const ChatRoom = () => {
-    const [privateChats, setPrivateChats] = useState(new Map());     
-    const [publicChats, setPublicChats] = useState([]); 
-    const [tab,setTab] =useState("CHATROOM");
-    const [userData, setUserData] = useState({
-        username: '',
-        receivername: '',
-        connected: false,
-        message: ''
-      });
+  const [privateChats, setPrivateChats] = useState(new Map());
+  const [userList, setUserList] = useState([]);
+  const [userData, setUserData] = useState({
+    username: '',
+    receivername: '',
+    connected: false,
+    message: ''
+  });
 
-    useEffect(() => {
-      console.log(userData);
-      console.log("프라이빗 챗")
-      console.log(privateChats)
-      console.log(tab)
-    }, [userData]);
+  const [tab, setTab] = useState('check')
 
-    const connect =()=>{
-        let Sock = new SockJS('http://localhost:8080/ws');
-        stompClient = over(Sock);
-        stompClient.connect({},onConnected, onError);
-    }
-
-    const onConnected = () => {
-        setUserData({...userData,"connected": true});
-        stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/'+userData.username+'/private', onPrivateMessage);
-        userJoin();
-    }
-
-    const userJoin=()=>{
-        console.log("순서확인 중 1")
-          var chatMessage = {
-            senderName: userData.username,
-            status:"JOIN"
-          };
-          stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-    }
-
-    const onMessageReceived = (payload)=>{
-        var payloadData = JSON.parse(payload.body);
-        console.log(payloadData)
-        switch(payloadData.status){
-            case "JOIN":
-                if(!privateChats.get(payloadData.senderName)){
-                    privateChats.set(payloadData.senderName,[]);
-                    setPrivateChats(new Map(privateChats));
-                }
-                break;
-            case "MESSAGE":
-                publicChats.push(payloadData);
-                setPublicChats([...publicChats]);
-                break;
+  useEffect(() => {
+    authheader()
+    axios.get('/auth/getalluser')
+      .then(res => {
+        console.log(res.data)
+        setUserList(res.data)
+        for (let index = 0; index < res.data.length; index++) {
+          privateChats.set(res.data[index].email, [])
+          setPrivateChats(privateChats)
         }
-    }
-    
-    const onPrivateMessage = (payload)=>{
-        var payloadData = JSON.parse(payload.body);
-        if(privateChats.get(payloadData.senderName)){
-            privateChats.get(payloadData.senderName).push(payloadData);
-            setPrivateChats(new Map(privateChats));
-        }else{
-            let list =[];
-            list.push(payloadData);
-            privateChats.set(payloadData.senderName,list);
-            setPrivateChats(new Map(privateChats));
-        }
-    }
+      })
 
-    const onError = (err) => {
-        console.log(err);
-        
-    }
+    axios.get('/user/getintro')
+      .then(res => {
+        setUserData({ ...userData, username: res.data.email })
+      })
+  }, [])
 
-    const handleMessage =(event)=>{
-        console.log("순서확인 중 2")
-        const {value}=event.target;
-        setUserData({...userData,"message": value});
-    }
-    const sendValue=()=>{
-        console.log("순서확인 중 4")
-            if (stompClient) {
-              var chatMessage = {
-                senderName: userData.username,
-                message: userData.message,
-                status:"MESSAGE"
-              };
-              console.log(chatMessage);
-              stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-              setUserData({...userData,"message": ""});
-            }
-    }
+  const connect = () => {
+    let Sock = new SockJS('http://localhost:8080/ws');
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnected, onError);
+  }
 
-    const sendPrivateValue=()=>{
-        console.log("순서확인 중 5")
-        if (stompClient) {
-          var chatMessage = {
-            senderName: userData.username,
-            receiverName:tab,
-            message: userData.message,
-            status:"MESSAGE"
-          };
-          
-          if(userData.username !== tab){
-            privateChats.get(tab).push(chatMessage);
-            setPrivateChats(new Map(privateChats));
-          }
-          stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-          setUserData({...userData,"message": ""});
-        }
-    }
+  const onConnected = () => {
+    setUserData({ ...userData, "connected": true });
+    stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
+    userJoin();
+  }
 
-    const handleUsername=(event)=>{
-        const {value}=event.target;
-        setUserData({...userData,"username": value});
-    }
+  const userJoin = () => {
+    var chatMessage = {
+      senderName: userData.username,
+      status: "JOIN"
+    };
+    stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+  }
 
-    const registerUser=()=>{
-        connect();
+  const onPrivateMessage = (payload) => {
+    var payloadData = JSON.parse(payload.body);
+    if (privateChats.get(payloadData.senderName)) {
+      privateChats.get(payloadData.senderName).push(payloadData);
+      setPrivateChats(new Map(privateChats));
+    } else {
+      let list = [];
+      list.push(payloadData);
+      console.log("리스트" + list)
+      privateChats.set(payloadData.senderName, list);
+      setPrivateChats(new Map(privateChats));
     }
+  }
+  const handleMessage = (event) => {
+    const { value } = event.target;
+    setUserData({ ...userData, "message": value });
+  }
 
-    return (
-    <div className="container">
-        {userData.connected ?
-        <div className="chat-box">
-            <div className="member-list">
-                <ul>
-                    <li onClick={()=>{setTab("CHATROOM")}} className={`member ${tab==="CHATROOM" && "active"}`}>Chatroom</li>
-                    {[...privateChats.keys()].map((name,index)=>(
-                        <li onClick={()=>{setTab(name)}} className={`member ${tab===name && "active"}`} key={index}>{name}</li>
-                    ))}
-                </ul>
+  const sendPrivateValue = () => {
+    if (stompClient) {
+      var chatMessage = {
+        senderName: userData.username,
+        receiverName: tab,
+        message: userData.message,
+        status: "MESSAGE"
+      };
+
+      if (userData.username !== tab) {
+        privateChats.get(tab).push(chatMessage);
+        setPrivateChats(new Map(privateChats));
+      }
+      stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+      setUserData({ ...userData, "message": "" });
+    }
+  }
+
+  const onError = (err) => {
+    console.log(err)
+  }
+
+  useEffect(() => {
+    console.log(userData)
+    console.log("채팅방")
+    console.log(privateChats)
+    console.log(tab)
+  }, [userData])
+
+
+  const StartChat = () => {
+    connect();
+  }
+
+
+  return (
+    <>
+      <Header />
+      {userData.connected ?
+        <div className='chat-box-test'>
+          <div className='friend-tab'>
+            <h3 className='friend-tab-name'>채팅</h3>
+            <hr className='friend-tab-hr'></hr>
+            {userList.length > 0 && userList.map((user) => (
+              <div key={user.id} className="friend-tab-box" onClick={() => setTab(user.email)}>
+                <div className="friend-tab-img-box">
+                  <UserImg email={user.email} />
+                </div>
+                <div className="friend-tab-text">
+                  <div>{user.username}</div>
+                  <div>{user.intro}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="chat-content">
+            <ul className="chat-messages">
+
+              {tab !== 'check' &&
+                [...privateChats.get(tab)].map((chat, index) => (
+                  <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
+                    {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
+                    <div className="message-data">{chat.message}</div>
+                    {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
+                  </li>
+                ))}
+            </ul>
+
+            <div className="send-message">
+              <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} />
+              <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
             </div>
-            {tab==="CHATROOM" && <div className="chat-content">
-                <ul className="chat-messages">
-                    {publicChats.map((chat,index)=>(
-                        <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
-                            {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
-                            <div className="message-data">{chat.message}</div>
-                            {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
-                        </li>
-                    ))}
-                </ul>
-
-                <div className="send-message">
-                    <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
-                    <button type="button" className="send-button" onClick={sendValue}>send</button>
-                </div>
-            </div>}
-            {tab!=="CHATROOM" && <div className="chat-content">
-                <ul className="chat-messages">
-                    {[...privateChats.get(tab)].map((chat,index)=>(
-                        <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
-                            {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
-                            <div className="message-data">{chat.message}</div>
-                            {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
-                        </li>
-                    ))}
-                </ul>
-
-                <div className="send-message">
-                    <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
-                    <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
-                </div>
-            </div>}
+          </div>
         </div>
         :
-        <div className="register">
-            <input
-                id="user-name"
-                placeholder="Enter your name"
-                name="userName"
-                value={userData.username}
-                onChange={handleUsername}
-                margin="normal"
-              />
-              <button type="button" onClick={registerUser}>
-                    connect
-              </button> 
-        </div>}
-    </div>
-    )
+        <div className='chat-start'>
+          <button type="button" onClick={StartChat}>
+            채팅 시작
+          </button>
+        </div>
+      }
+    </>
+  )
 }
 
 export default ChatRoom

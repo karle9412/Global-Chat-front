@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import { BsFillHouseDoorFill } from "react-icons/bs";
@@ -61,6 +61,9 @@ export default function Header(props) {
             className="icon"
             size={40}
             style={{ color: "#BDBDBD" }}
+            onClick={()=> {
+              navigate("/profile");
+            }}
           />
         </div>
       </header>

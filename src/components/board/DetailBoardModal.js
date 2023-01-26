@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./boardCss/Modal.css";
 
 const DetailBoardModal = (props) => {

@@ -13,7 +13,6 @@ import FindPw from './components/login/FindPw';
 import Changepw from './components/userinfo/Changepw';
 import Alarm from './components/userinfo/Alarm';
 import BlockList from './components/userinfo/BlockList';
-import ChatRoomTest from './components/ChatRoomTest';
 
 
 const App = () => {
@@ -35,7 +34,7 @@ const App = () => {
      <Route path='/changepw' element={<Changepw/>} />
      <Route path='/alarm' element={<Alarm/>} />
      <Route path='/blocklist' element={<BlockList/>}/>
-     <Route path='/chatroomtest' element={<ChatRoomTest />} />
+     <Route path='/profile' element={<Profile />}/>
      
    </Routes>
    </BrowserRouter>
