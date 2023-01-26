@@ -1,0 +1,45 @@
+header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 56px;
+    background-color: white;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.tab1 {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    
+}
+
+.tab2 {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.tab3 {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 5%;
+    transition: all 1s;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    padding: 30px;
+    color: #273e6e;
+    cursor: pointer;
+    
+}
+

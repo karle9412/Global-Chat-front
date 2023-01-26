@@ -1,0 +1,19 @@
+.boardDropDown {
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    width: 100%;
+    background-color: white;
+}
+
+li {
+    display: block;
+    padding: 5px;
+    color: #000000;
+    font-size: 14px;
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+}
+
+
+  
