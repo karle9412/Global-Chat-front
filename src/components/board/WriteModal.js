@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import "../board/boardCss/Modal.css";
 
 const WriteModal = (props) => {
   const { open, close, header } = props;
 
-  const [bardContent, setBoardContent] = useState("");
+  // const [boardContent, setBoardContent] = useState("");
   const [value, setValue] = useState("");
 
   const handleChange = (e) => {
@@ -18,13 +19,15 @@ const WriteModal = (props) => {
       })
       .then((res) => {
         setValue(res.data);
-        setBoardContent(res.data);
+        // setBoardContent(res.data);
         console.log(value);
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
 
   return (
     <div className={open ? "openModal modal" : "modal"}>
@@ -37,12 +40,8 @@ const WriteModal = (props) => {
             </button>
           </header>
           <main>
-            <div className="modalInfo">
-              <div>
-                <textarea className="modalContent" onChange={handleChange}>
-                  {bardContent}
-                </textarea>
-              </div>
+          <div className="modalInfo">
+                <textarea className="modalContent" defaultValue={value} onChange={handleChange} />
             </div>
           </main>
           <footer>

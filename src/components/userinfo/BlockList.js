@@ -4,7 +4,7 @@ import { authheader } from "../../service/ApiService";
 import axios from "axios";
 import UserImg from "../Reply/UserImg";
 import BlockListUserName from "./BlockListUserName.js";
-import Layout from "../Layout";
+import Header from "../Header/Header";
 
 //차단 관리
 const BlockList = () => {
@@ -30,7 +30,7 @@ const BlockList = () => {
 
   return (
     <>
-    <Layout>
+    <Header />
       {/* 메뉴창 */}
         <div className="BlockListForm">
           <div className="BlockDiv">
@@ -59,8 +59,7 @@ const BlockList = () => {
               )}
 
           </div>
-        </div>  
-      </Layout>
+        </div>
     </>
   )
 }

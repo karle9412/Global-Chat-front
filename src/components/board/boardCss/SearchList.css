@@ -7,23 +7,19 @@
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
-  cursor: pointer;
-  /* margin-bottom: 30px; */
 }
 
 hr {
   width: 100%;
+  margin-top: 10%;
+  margin-bottom: 20%;
 }
 
-.boardInfo,
-.infoInModal {
-  display: flex;
-}
 
 .first-tab,
 .md-first-tab {
+  width: 100%;
   display: flex;
-  flex-direction: flex-start;
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
@@ -34,6 +30,8 @@ hr {
   display: flex;
   font-size: 1.4rem;
   align-items: center;
+  justify-content: center;
+  width : 150px;
 }
 
 .date,
@@ -41,9 +39,20 @@ hr {
   display: flex;
   font-size: 0.8rem;
   align-items: center;
-  margin-left: 15rem;
+  justify-content: center;
+  margin-left: 2%;
   color: #bdbdbd;
 }
+
+.dotIcon,
+.md-dotIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+
 
 .category,
 .md-category {
@@ -57,14 +66,156 @@ hr {
 .inContent,
 .md-inContent {
   display: flex;
+  width: 100%;
   margin-top: 10px;
   align-items: center;
   justify-content: center;
+  font-size: large;
+  padding: 2rem;
+}
+
+.inContent {
+  cursor: pointer;
 }
 
 .like,
 .md-like {
   display: flex;
-  margin-top: 1.5rem;
-  margin-right: auto;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: large;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.inputReply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 5%;
+  box-sizing: border-box;
+  margin-top: 10%;
+  border: none;
+  font-size: medium;
+}
+
+.replyBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 5%;
+  box-sizing: border-box;
+  border: none;
+  font-size: medium;
+}
+
+.replyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  height: 5%;
+  box-sizing: border-box;
+  margin-top: 10%;
+  border: none;
+  font-size: small;
+  font-weight: bold;
+  color: #273e6e;
+  cursor: pointer;
+}
+
+.inputReply:focus {
+  outline: none;
+}
+
+.inputReply::placeholder {
+  color: #bdbdbd;
+  font-size: medium;
+}
+
+.dropbox {
+  /* display: flex; */
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 5%;
+  box-sizing: border-box;
+  /* margin-top: 10%; */
+  border: none;
+  font-size: medium;
+}
+
+ul {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+
+li {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin-top: 0;
+  padding: 0;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+@keyframes slide-fade-in-dropdown-animation {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide-fade-in-dropdown {
+  overflow: hidden;
+}
+
+.slide-fade-in-dropdown > ul {
+  animation: slide-fade-in-dropdown-animation .4s ease;
+}
+
+@keyframes slide-fade-out-dropdown-animation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.slide-fade-out-dropdown {
+  overflow: hidden;
+}
+
+.slide-fade-out-dropdown > ul {
+  animation: slide-fade-out-dropdown-animation 0.4s ease;
+  animation-fill-mode: forwards;
+}
+
+.components-dropdown > ul {
+  position: relative;
+  top: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding-left: 0;
+  list-style: none;
+  margin-left: auto;
+}
+
+.searchlist-dropbox{
+  max-height: 20px;
+  width: 100%;
 }

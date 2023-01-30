@@ -8,6 +8,7 @@ import "./reply.css"
 export default function Reply({bno, check}) {
 
   const reply = usefetch(`http://localhost:8080/reply/request/${bno}`)
+  console.log(reply.data)
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function Reply({bno, check}) {
           </div>
 ))}
       {check === "2" &&
-          reply.length !== 0 && reply.data.map((reply, idx) => (
+          reply.length !== 0 && reply.data.reverse().map((reply, idx) => (
             idx === 0 &&
             <div className="replyForm" key={idx}>
               <div className="box">

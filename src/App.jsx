@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './components/Home';
 import Profile from './components/userinfo/Profile';
-import ChatRoom from './components/ChatRoom';
+import ChatRoom from './components/ChatRoom/ChatRoom';
 import Registry from './components/Registry/Registry';
 import Interest from './components/Interest';
 import GoogleLoginButton from './components/login/GoogleLoginButton'
@@ -13,6 +13,7 @@ import FindPw from './components/login/FindPw';
 import Changepw from './components/userinfo/Changepw';
 import Alarm from './components/userinfo/Alarm';
 import BlockList from './components/userinfo/BlockList';
+import Changeinfo from './components/userinfo/Changeinfo';
 
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
      <Route path='/alarm' element={<Alarm/>} />
      <Route path='/blocklist' element={<BlockList/>}/>
      <Route path='/profile' element={<Profile />}/>
+     <Route path='/changeinfo' element={<Changeinfo />} />
      
    </Routes>
    </BrowserRouter>

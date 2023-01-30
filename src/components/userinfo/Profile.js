@@ -1,6 +1,6 @@
 import React from 'react';
 import usefetch from '../../hooks/usefetch';
-import Header from '../Header';
+import Header from '../Header/Header';
 import './profile.css'
 import UserImg from '../Reply/UserImg';
 

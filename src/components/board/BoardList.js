@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useInView } from "react-intersection-observer";
 import axios from "axios";
 import SearchList from "./SearchList";
 import "./boardCss/BoardList.css";
@@ -13,6 +14,7 @@ const BoardList = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingMent, setLoadingMent] = useState("");
 
 
   const getItems = useCallback(async () => {
@@ -24,6 +26,10 @@ const BoardList = () => {
       })
       .catch((error) => {
         setPage(0);
+        if(error.response.status === 404 || error.response.status === 400 
+          || error.response.status === 500) {
+          setLoadingMent("아직 게시글이 없습니다.");
+          }
       });
     setLoading(false);
   }, [page]);
@@ -35,6 +41,7 @@ const BoardList = () => {
   return (
     <div className="boardList">
       <div className="content">
+        {loading && <div className="loading">Loading...</div>}
         {items.map((item, idx) => (
           <React.Fragment key={idx}>
             <SearchList key={item.bno} {...item} />

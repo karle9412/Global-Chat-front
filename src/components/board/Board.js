@@ -4,7 +4,7 @@ import SearchInput from './SearchInput';
 import { authheader } from '../../service/ApiService';
 import SearchBoardList from './SearchBoardList';
 import BoardList from './BoardList';
-import Header from '../Header';
+import Header from '../Header/Header';
 import '../board/boardCss/Board.css';
 
 

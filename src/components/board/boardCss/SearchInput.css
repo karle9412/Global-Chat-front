@@ -9,7 +9,7 @@
     position: relative;
 }
 
-input {
+.searchInput {
     border: 1px solid #ccc;
     height: 20px;
     border-radius: 20px;
@@ -23,9 +23,5 @@ input {
     top: 10px;
     right: 10px;
     cursor: pointer;
-}
-
-input:hover {
-    border: 1px solid #000;
 }
 

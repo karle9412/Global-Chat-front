@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import axios from 'axios';
-import UserImg from './Reply/UserImg';
+import UserImg from '../Reply/UserImg';
 import './ChatRoom.css'
-import { authheader } from '../service/ApiService';
-import Header from './Header';
+import { authheader } from '../../service/ApiService';
+import Header from '../Header/Header';
 
 var stompClient = null;
 const ChatRoom = () => {
