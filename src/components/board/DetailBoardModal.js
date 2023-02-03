@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import "./boardCss/Modal.css";
+import "./boardCSS/Modal.css";
 import UpdateModal from "../board/UpdateModal";
 import { authheader } from "../../service/ApiService";
-
 
 const DetailBoardModal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -16,7 +15,6 @@ const DetailBoardModal = (props) => {
     setIsClicked(!isClicked);
   };
 
-
   const [user_email, setUser_email] = useState("");
 
   useEffect(()=> {
@@ -24,9 +22,6 @@ const DetailBoardModal = (props) => {
     axios.get('/user/getintro',)
     .then(response => {
         setUser_email(response.data.email)
-        console.log(response)
-        console.log(response.data.email)
-        console.log(user_email)
     })
     .catch(error => {
         alert("유저 정보 불러오기 실패")
@@ -60,13 +55,12 @@ const DetailBoardModal = (props) => {
           </header>
           <main>{props.children}</main>
           <footer>
-          { user_email === email ?
+            { user_email === email ?
             <button className="update" onClick={handleClick}>
               수정
             </button> : null }
-
             {isClicked ? <UpdateModal open={isClicked} close={() => {setIsClicked(false)}} header="게시글 수정"
-                                      boardContent={boardContent} bno={bno}/> : null}
+                                      boardContent={boardContent} bno={bno} email={email}/> : null}
             <button className="close" onClick={close}>
               close
             </button>

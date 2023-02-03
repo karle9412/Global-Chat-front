@@ -1,5 +1,5 @@
 import React from 'react';
-import './boardCss/DropDown.css';
+import './boardCSS/DropDown.css';
 
 const DropDown = props => {
     const [visibilityAnimation, setVisibilityAnimation] = React.useState(false);

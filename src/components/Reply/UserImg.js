@@ -5,7 +5,6 @@ import { authheader } from "../../service/ApiService";
 
 // 유저의 사진은 이메일을 필요
 const UserImg = (email) => {
-  console.log(email)
 
   //빈 이미지 리스트를 생성
   const [img, setImg] = useState([]);
@@ -18,7 +17,6 @@ const UserImg = (email) => {
       .then(result => {
         if (result.data != null) {
           //파일 아이디로 유저의 사진 이름을 들고 옴
-          console.log(result)
           axios.get(`http://localhost:8080/userfile/upload/${result.data}`)
             .then(res => {
               if (res != null) {

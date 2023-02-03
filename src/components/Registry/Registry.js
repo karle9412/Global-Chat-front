@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React from "react"
 import countryList from "react-select-country-list";
 import Local from "./Local";
 import Email from "./Email";
@@ -7,7 +7,7 @@ import Passwd from "./Passwd";
 import PhoneNumber from "./PhoneNumber";
 import VerificationCoden from "./VerificationCoden";
 import "./Registry.css";
-import { Container, Grid, Typography, Button, TextField } from "@material-ui/core";
+import { Container, Grid, Typography, Button } from "@material-ui/core";
 import axios from "axios";
 
 
@@ -295,7 +295,7 @@ export default class registry extends React.Component {
         console.log(response)
         
         alert("회원가입 완료.")
-        window.location.href = "/login";
+        window.location.href = `/interest?email=${email}`;
         this.changeauthck("0")
         this.changepassck("0")
         this.changeemailck("0")
@@ -305,6 +305,10 @@ export default class registry extends React.Component {
         console.log(error)
         alert("가입실패.");
     })
+
+    axios.post('/favoriteList/create',
+    {email : email}
+    )
   }
 
 

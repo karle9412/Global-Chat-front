@@ -1,11 +1,12 @@
+
 import React, { useEffect, useState } from 'react'
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import axios from 'axios';
-import UserImg from '../Reply/UserImg';
-import './ChatRoom.css'
+import './ChatRoom2.css'
 import { authheader } from '../../service/ApiService';
 import Header from '../Header/Header';
+import TextTranslate from '../Reply/TextTranslate';
 
 var stompClient = null;
 const ChatRoom = () => {
@@ -18,26 +19,32 @@ const ChatRoom = () => {
     message: ''
   });
 
-  const [tab, setTab] = useState('check')
+  const [tab, setTab] = useState('')
 
+
+  //친구목록 불러오기
   useEffect(() => {
     authheader()
-    axios.get('/auth/getalluser')
+    axios.get('/friendlist/consent')
       .then(res => {
-        console.log(res.data)
+        console.log("친구목록",res.data)
         setUserList(res.data)
+        setTab(res.data[0].requsername)
         for (let index = 0; index < res.data.length; index++) {
-          privateChats.set(res.data[index].email, [])
+          privateChats.set(res.data[index].requsername, [])
           setPrivateChats(privateChats)
         }
       })
-
+    
+      // 내정보
     axios.get('/user/getintro')
       .then(res => {
-        setUserData({ ...userData, username: res.data.email })
+        setUserData({ ...userData, username: res.data.username })
       })
-  }, [])
+  }, [userData.username])
 
+
+  //소켓 연결
   const connect = () => {
     let Sock = new SockJS('http://localhost:8080/ws');
     stompClient = over(Sock);
@@ -64,9 +71,9 @@ const ChatRoom = () => {
       privateChats.get(payloadData.senderName).push(payloadData);
       setPrivateChats(new Map(privateChats));
     } else {
-      let list = [];
+      let list = ["부아아아아아아아아아아아아아아아아아ㅏ"];
       list.push(payloadData);
-      console.log("리스트" + list)
+      console.log("리스트!!!!!!!!!1", list)
       privateChats.set(payloadData.senderName, list);
       setPrivateChats(new Map(privateChats));
     }
@@ -76,7 +83,9 @@ const ChatRoom = () => {
     setUserData({ ...userData, "message": value });
   }
 
-  const sendPrivateValue = () => {
+
+  // 메세지보내기
+  const sendPrivateValue = (event) => {
     if (stompClient) {
       var chatMessage = {
         senderName: userData.username,
@@ -89,22 +98,17 @@ const ChatRoom = () => {
         privateChats.get(tab).push(chatMessage);
         setPrivateChats(new Map(privateChats));
       }
+      event.preventDefault();
+      console.log("프챗",privateChats)
       stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, "message": "" });
     }
+
   }
 
   const onError = (err) => {
     console.log(err)
   }
-
-  useEffect(() => {
-    console.log(userData)
-    console.log("채팅방")
-    console.log(privateChats)
-    console.log(tab)
-  }, [userData])
-
 
   const StartChat = () => {
     connect();
@@ -112,44 +116,60 @@ const ChatRoom = () => {
 
 
   return (
-    <>
+    <div className='back2' >
       <Header />
       {userData.connected ?
-        <div className='chat-box-test'>
-          <div className='friend-tab'>
-            <h3 className='friend-tab-name'>채팅</h3>
-            <hr className='friend-tab-hr'></hr>
+
+<div id="contentWrap">
+<div id="contentCover">
+    <div id="roomWrap">
+        <div id="roomList">
+            <div id="roomHeader">친구목록</div>
+
             {userList.length > 0 && userList.map((user) => (
-              <div key={user.id} className="friend-tab-box" onClick={() => setTab(user.email)}>
-                <div className="friend-tab-img-box">
-                  <UserImg email={user.email} />
-                </div>
-                <div className="friend-tab-text">
-                  <div>{user.username}</div>
-                  <div>{user.intro}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="chat-content">
-            <ul className="chat-messages">
-
-              {tab !== 'check' &&
-                [...privateChats.get(tab)].map((chat, index) => (
-                  <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
-                    {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
-                    <div className="message-data">{chat.message}</div>
-                    {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
-                  </li>
-                ))}
-            </ul>
-
-            <div className="send-message">
-              <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} />
-              <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
+            <div key={user.id} id="roomSelect" onClick={() => setTab(user.requsername)}>
+                
+               <div className="roomEl active">
+               <div className="friend-tab-img-box">
+                  {/* <UserImg email={user.requireemail} /> */}
+                 </div>
+                  <div className="friend-tab-name-box">
+                    {user.requsername}
+                    </div>
+                 
+               </div>
             </div>
-          </div>
+             ))}
         </div>
+    </div>
+    <div id="chatWrap">
+        <div id="chatHeader">{tab}</div>
+        <div id="chatLog">
+        {tab !== 'check' &&
+        [...privateChats.get(tab)].map((chat, index) => (
+          <li key={index}>
+            {chat.senderName != userData.username?(
+            <div class="anotherMsg">
+                <span class="anotherName">{chat.senderName}</span>
+                <span class="msg">{chat.message}</span>
+                <TextTranslate text={chat.message} />
+            </div>):(
+            <div class="myMsg">
+                <span class="msg">{chat.message}</span>
+            </div>
+            )}
+            </li>
+            ))}
+        </div>
+        <form id="chatForm" onSubmit={sendPrivateValue}>
+            <input type="text" autocomplete="off" size="30" id="message" placeholder="메시지를 입력하세요" value={userData.message} onChange={handleMessage}/>
+            <input type="submit" value="보내기"/>
+        </form>
+    </div>
+   </div>
+</div>
+
+       
         :
         <div className='chat-start'>
           <button type="button" onClick={StartChat}>
@@ -157,8 +177,14 @@ const ChatRoom = () => {
           </button>
         </div>
       }
-    </>
+    </div>
   )
 }
 
 export default ChatRoom
+
+
+
+
+
+      

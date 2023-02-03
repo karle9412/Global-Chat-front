@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { authheader } from "../../service/ApiService";
-import "./boardCss/SearchInput.css";
+import "./boardCSS/SearchInput.css";
 import WriteModal from "./WriteModal";
 import { BsPencilSquare } from "react-icons/bs";
 import {BsSearch} from "react-icons/bs";
 import SearchBoardList from "./SearchBoardList";
 
-const BoardForm = ({ value, onChange, activeEnter, handleClick }) => {
+const BoardForm = ({ value, handleChange, activeEnter, handleClick }) => {
   authheader();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -22,11 +22,11 @@ const BoardForm = ({ value, onChange, activeEnter, handleClick }) => {
           className="searchInput"
           type="text"
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           onKeyDown={activeEnter}
         />
         {/* <button className="btnBox"> */}
-          <BsSearch onClick={handleClick} className="btn" size={20} style={{color: '#aaa'}}/>
+          <BsSearch onClick={handleClick} className="btn" size={20} style={{color: '#aaa'}} />
         {/* </button> */}
       </div>
       {/* <div className="searchBtn"> 

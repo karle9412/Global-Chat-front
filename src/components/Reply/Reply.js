@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import usefetch from "../../hooks/usefetch";
 import UserImg from "./UserImg";
 import "./reply.css"
+import TextTranslate from "./TextTranslate";
 
 // 댓글은 보드넘버가 필요
 export default function Reply({bno, check}) {
 
   const reply = usefetch(`http://localhost:8080/reply/request/${bno}`)
-  console.log(reply.data)
 
   return (
     <>
@@ -22,6 +22,7 @@ export default function Reply({bno, check}) {
             <div>{reply.email}</div>
             <div>{reply.indate}</div>
             <div>{reply.replyContent}</div>
+            {/* <TextTranslate text={reply.replyContent} /> */}
           </div>
 ))}
       {check === "2" &&
@@ -35,6 +36,7 @@ export default function Reply({bno, check}) {
               <div>{reply.email}</div>
               <div>{reply.indate}</div>
               <div>{reply.replyContent}</div>
+              {/* <TextTranslate text={reply.replyContent} /> */}
             </div>
           ))
           }

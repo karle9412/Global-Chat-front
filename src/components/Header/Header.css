@@ -8,6 +8,7 @@ header {
     align-items: center;
     justify-content: flex-start;
     box-sizing: border-box;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .tab1 {
@@ -15,6 +16,7 @@ header {
     display: flex;
     align-items: center;
     margin-left: 5%;
+    justify-content: center;
     
 }
 
@@ -22,7 +24,7 @@ header {
     padding: 10px;
     display: flex;
     align-items: center;
-    margin-left: auto;
+    margin-left: 10%;
 }
 
 .tab3 {
@@ -31,15 +33,14 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto;
-    margin-right: 5%;
+    margin-left: 15%;
     transition: all 1s;
 }
 
 .icon {
     width: 24px;
     height: 24px;
-    padding: 30px;
+    padding: 2rem;
     color: #273e6e;
     cursor: pointer;
 
@@ -113,8 +114,3 @@ header {
     animation-fill-mode: forwards;
   }
 
-.dropdown-box{
-  display : inline-block;
-  max-height: 88px;
-  
-}

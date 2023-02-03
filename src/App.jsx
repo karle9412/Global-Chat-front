@@ -14,7 +14,7 @@ import Changepw from './components/userinfo/Changepw';
 import Alarm from './components/userinfo/Alarm';
 import BlockList from './components/userinfo/BlockList';
 import Changeinfo from './components/userinfo/Changeinfo';
-import Translate from './hooks/useTranslate';
+import Random from './components/ChatRoom/Random';
 
 
 const App = () => {
@@ -36,10 +36,9 @@ const App = () => {
      <Route path='/changepw' element={<Changepw/>} />
      <Route path='/alarm' element={<Alarm/>} />
      <Route path='/blocklist' element={<BlockList/>}/>
-     <Route path='/profile' element={<Profile />}/>
      <Route path='/changeinfo' element={<Changeinfo />} />
-     <Route path='/translate' element={<Translate />} />
-     
+     <Route path='/random' element={<Random />}/>
+
    </Routes>
    </BrowserRouter>
     </>

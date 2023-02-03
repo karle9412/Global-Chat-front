@@ -6,6 +6,7 @@ import SearchBoardList from './SearchBoardList';
 import BoardList from './BoardList';
 import Header from '../Header/Header';
 import '../board/boardCss/Board.css';
+import Websocket from '../Websocket';
 
 
 const Board = () => {
@@ -20,24 +21,23 @@ const Board = () => {
         setSearchItem(e.target.value);
     };
 
-    const handleClick = () => {
-        if(searchItem !== '') {
+    const handleClick = (e) => {
+        if (searchItem !== '') {
             axios.get(`/board/search/${searchItem}`)
-            .then((res) => {
-                setSearchDataList(res.data)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
+                .then((res) => {
+                    setSearchDataList(res.data);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         } else {
-            alert('검색어를 입력해주세요');
-            
+
         }
     };
 
     const activeEnter = (e) => {
-        if(e.key === 'Enter') {
-            if(searchItem !== '') {
+        if (e.key === 'Enter') {
+            if (searchItem !== '') {
                 handleClick();
             } else {
                 alert('검색어를 입력해주세요.');
@@ -45,30 +45,31 @@ const Board = () => {
         }
     };
 
-
-
-
     return (
-    <div className="Board">
+        <div className="Board">
+            <header>
+                <Header>
+                    <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter} />
+                </Header>
+            </header>
 
-        <header>
-            <Header>
-                <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter}/>
-            </Header>
-        </header>
-
-    {/* 친구 추천 리스트 */}
-        {/* <div className='recommendFriends'>
+            {/* 친구 추천 리스트 */}
+            {/* <div className='recommendFriends'>
             <h2>오늘의 친구를 만나보세요!</h2>
         </div> */}
-    
-    {/* 게시글 목록 */}
-        <div className='showList'>
-            { searchDataList.length > 0 ? <SearchBoardList searchDataList={searchDataList} setSearchDataList={setSearchDataList} searchItem={searchItem}/> : <BoardList /> }
+
+            {/* 게시글 목록 */}
+            <div className='showList'>
+                {searchDataList.length > 0 ?
+                    <SearchBoardList
+                        searchDataList={searchDataList}
+                        searchItem={searchItem} />
+                    :
+                    <BoardList />}
+            </div>
+
+
         </div>
-        
-        
-    </div>
     );
 }
 
