@@ -5,8 +5,8 @@ import { authheader } from '../../service/ApiService';
 import SearchBoardList from './SearchBoardList';
 import BoardList from './BoardList';
 import Header from '../Header/Header';
-import '../board/boardCss/Board.css';
-import Websocket from '../Websocket';
+import './boardCSS/Board.css';
+import RecommendFriends from '../friends/RecommendFriends';
 
 
 const Board = () => {
@@ -49,14 +49,12 @@ const Board = () => {
         <div className="Board">
             <header>
                 <Header>
-                    <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter} />
+                    <SearchInput defaultValue={searchItem} onChange={handleChange} activeEnter={activeEnter} />
                 </Header>
             </header>
 
-            {/* 친구 추천 리스트 */}
-            {/* <div className='recommendFriends'>
-            <h2>오늘의 친구를 만나보세요!</h2>
-        </div> */}
+        
+        <RecommendFriends/>
 
             {/* 게시글 목록 */}
             <div className='showList'>

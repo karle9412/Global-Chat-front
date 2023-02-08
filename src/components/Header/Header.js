@@ -8,12 +8,12 @@ import { BsPersonCircle } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
 import { BsFillBellFill } from "react-icons/bs";
 import { BsPencilSquare } from "react-icons/bs";
-import WriteModal from "./board/WriteModal";
-import DropDown from "./board/DropDown";
-import { signout } from "../service/ApiService";
-import Friends from "./friends/Friends";
-import FriendsModal from "./friends/FriendsModal";
-import DropDown2 from "./board/DropDown2";
+import WriteModal from "../board/WriteModal";
+import DropDown from "../board/DropDown";
+import { signout } from "../../service/ApiService";
+import Friends from "../friends/Friends";
+import FriendsModal from "../friends/FriendsModal";
+import DropDown2 from "../board/DropDown2";
 
 export default function Header(props) {
   const navigate = useNavigate();
@@ -81,48 +81,50 @@ export default function Header(props) {
             <Friends />
           </FriendsModal>
 
-          <BsPersonCircle
-            className="icon"
-            size={40}
-            style={{ color: "#BDBDBD" }}
-            onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
-          />
+          <div className="dropdown-box">
+            <BsPersonCircle
+              className="icon"
+              size={40}
+              style={{ color: "#BDBDBD" }}
+              onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
+            />
 
-          {/* <DropDown2 visibility={dropdownVisibility} /> */}
+            {/* <DropDown2 visibility={dropdownVisibility} /> */}
 
-          <DropDown visibility={dropdownVisibility}>
-            <ul>
-              <li
-                onClick={() => {
-                  navigate("/profile");
-                }}
-              >
-                프로필
-              </li>
-              <li
-                onClick={() => {
-                  navigate("/changeinfo");
-                }}
-              >
-                프로필 수정
-              </li>
-              <li
-                onClick={() => {
-                  navigate("/changepw");
-                }}
-              >
-                비밀번호 변경
-              </li>
-              <li
-                onClick={() => {
-                  navigate("/alarm");
-                }}
-              >
-                알람
-              </li>
-              <li onClick={logout}>로그아웃</li>
-            </ul>
-          </DropDown>
+            <DropDown visibility={dropdownVisibility}>
+              <ul>
+                <li
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  프로필
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/changeinfo");
+                  }}
+                >
+                  프로필 수정
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/changepw");
+                  }}
+                >
+                  비밀번호 변경
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/alarm");
+                  }}
+                >
+                  알람
+                </li>
+                <li onClick={logout}>로그아웃</li>
+              </ul>
+            </DropDown>
+          </div>
         </div>
       </header>
     </>

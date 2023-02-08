@@ -7,6 +7,7 @@ import './ChatRoom2.css'
 import { authheader } from '../../service/ApiService';
 import Header from '../Header/Header';
 import TextTranslate from '../Reply/TextTranslate';
+import UserImg from '../Reply/UserImg';
 
 var stompClient = null;
 const ChatRoom = () => {
@@ -131,7 +132,7 @@ const ChatRoom = () => {
                 
                <div className="roomEl active">
                <div className="friend-tab-img-box">
-                  {/* <UserImg email={user.requireemail} /> */}
+                  <UserImg email={user.requireemail} />
                  </div>
                   <div className="friend-tab-name-box">
                     {user.requsername}

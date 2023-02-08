@@ -1,4 +1,3 @@
-import Draggable from 'react-draggable';
 import './friendsCSS/FriendsModal.css';
 
 

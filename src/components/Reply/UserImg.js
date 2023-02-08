@@ -6,6 +6,7 @@ import { authheader } from "../../service/ApiService";
 // 유저의 사진은 이메일을 필요
 const UserImg = (email) => {
 
+  console.log(email)
   //빈 이미지 리스트를 생성
   const [img, setImg] = useState([]);
 
@@ -23,7 +24,8 @@ const UserImg = (email) => {
                 //들고 온 유저의 사진 이름을 빈 이미지 리스트에 저장
                 setImg(res)
               }
-            })
+            }).catch(
+            )
         }
       })
   }, [])

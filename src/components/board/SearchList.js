@@ -2,7 +2,7 @@ import axios from "axios";
 import { authheader } from "../../service/ApiService";
 import React, { useEffect, useState, useRef } from "react";
 import DetailBoardModal from "./DetailBoardModal";
-import "./boardCss/SearchList.css";
+import "./boardCSS/SearchList.css";
 import Reply from "../Reply/Reply";
 import { Button } from "@material-ui/core";
 import {BsHeartFill} from "react-icons/bs";

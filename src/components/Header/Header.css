@@ -114,3 +114,9 @@ header {
     animation-fill-mode: forwards;
   }
 
+.dropdown-box{
+  display:block;
+  max-height: 88px;
+  max-width: 88px;
+  font-size: 14px;
+}
