@@ -36,6 +36,9 @@ export function call(api, method, request) {
     )
     .catch((error) => {
       // 추가된 부분
+      if(error.error==='Login failed.') {
+        alert("아이디와 비밀번호를 다시 확인해주세요.")
+      }
       console.log(error.status);
       if (error.status === 403) {
         window.location.href = "/login"; // redirect
@@ -45,6 +48,7 @@ export function call(api, method, request) {
 }
 
 export function signin(userDTO) {
+  
   return call("/auth/signin", "POST", userDTO).then((response) => {
     if (response.token) {
       // 로컬 스토리지에 토큰 저장

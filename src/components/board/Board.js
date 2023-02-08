@@ -4,8 +4,9 @@ import SearchInput from './SearchInput';
 import { authheader } from '../../service/ApiService';
 import SearchBoardList from './SearchBoardList';
 import BoardList from './BoardList';
-import Header from '../Header';
-import '../board/boardCss/Board.css';
+import Header from '../Header/Header';
+import './boardCSS/Board.css';
+import RecommendFriends from '../friends/RecommendFriends';
 
 
 const Board = () => {
@@ -20,23 +21,23 @@ const Board = () => {
         setSearchItem(e.target.value);
     };
 
-    const handleClick = () => {
-        if(searchItem !== '') {
+    const handleClick = (e) => {
+        if (searchItem !== '') {
             axios.get(`/board/search/${searchItem}`)
-            .then((res) => {
-                setSearchDataList(res.data)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
+                .then((res) => {
+                    setSearchDataList(res.data);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         } else {
-            
+
         }
     };
 
     const activeEnter = (e) => {
-        if(e.key === 'Enter') {
-            if(searchItem !== '') {
+        if (e.key === 'Enter') {
+            if (searchItem !== '') {
                 handleClick();
             } else {
                 alert('검색어를 입력해주세요.');
@@ -44,30 +45,29 @@ const Board = () => {
         }
     };
 
-
-
-
     return (
-    <div className="Board">
+        <div className="Board">
+            <header>
+                <Header>
+                    <SearchInput defaultValue={searchItem} onChange={handleChange} activeEnter={activeEnter} />
+                </Header>
+            </header>
 
-        <header>
-            <Header>
-                <SearchInput value={searchItem} onChange={handleChange} activeEnter={activeEnter} handleClick={handleClick}/>
-            </Header>
-        </header>
+        
+        <RecommendFriends/>
 
-    {/* 친구 추천 리스트 */}
-        {/* <div className='recommendFriends'>
-            <h2>오늘의 친구를 만나보세요!</h2>
-        </div> */}
-    
-    {/* 게시글 목록 */}
-        <div className='showList'>
-            { searchDataList.length > 0 ? <SearchBoardList searchDataList={searchDataList} searchItem={searchItem}/> : <BoardList /> }
+            {/* 게시글 목록 */}
+            <div className='showList'>
+                {searchDataList.length > 0 ?
+                    <SearchBoardList
+                        searchDataList={searchDataList}
+                        searchItem={searchItem} />
+                    :
+                    <BoardList />}
+            </div>
+
+
         </div>
-        
-        
-    </div>
     );
 }
 

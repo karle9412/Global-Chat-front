@@ -1,11 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
-import "../board/boardCss/Modal.css";
+import "./boardCSS/Modal.css";
 
 const WriteModal = (props) => {
   const { open, close, header } = props;
 
-  const [boardContent, setBoardContent] = useState("");
   const [value, setValue] = useState("");
 
   const handleChange = (e) => {
@@ -19,7 +18,6 @@ const WriteModal = (props) => {
       })
       .then((res) => {
         setValue(res.data);
-        setBoardContent(res.data);
         console.log(value);
         window.location.reload();
       })
@@ -40,11 +38,9 @@ const WriteModal = (props) => {
             </button>
           </header>
           <main>
-            <div className="modalInfo">
-              <textarea className="modalContent" onChange={handleChange}>
-                {boardContent}
-              </textarea>
-            </div>
+          <div className="modalInfo">
+                <textarea className="modalContent" defaultValue={value} onChange={handleChange} />
+          </div>
           </main>
           <footer>
             <button className="saveBtn" onClick={handleSubmit}>

@@ -12,12 +12,7 @@ import "./Login.css";
 import GoogleLoginButton from "./GoogleLoginButton";
 import { useNavigate } from "react-router-dom";
 
-
-
-
-
 class Login extends React.Component {
-
 
   constructor(props) {
     super(props);

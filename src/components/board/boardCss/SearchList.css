@@ -1,3 +1,8 @@
+
+.searchList {
+  border: 1px solid #e6e6e6;
+}
+
 .boardInfo, .infoInModal {
   display: flex;
   flex-direction: column;
@@ -5,7 +10,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 10%;
   box-sizing: border-box;
 }
 
@@ -49,23 +54,9 @@ hr {
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  cursor: pointer;
 }
 
-ul {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* margin-left: auto; */
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.viewDropDown {
-  display: flex;
-  margin: auto;
-  flex-direction: column;
-}
 
 .category,
 .md-category {
@@ -98,6 +89,7 @@ ul {
   margin-top: 2rem;
   font-size: large;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .inputReply {
@@ -107,7 +99,7 @@ ul {
   width: 100%;
   height: 5%;
   box-sizing: border-box;
-  margin-top: 10%;
+  margin-top: 5%;
   border: none;
   font-size: medium;
 }
@@ -121,6 +113,7 @@ ul {
   box-sizing: border-box;
   border: none;
   font-size: medium;
+  padding-bottom: 5%;
 }
 
 .replyBtn {
@@ -145,4 +138,84 @@ ul {
 .inputReply::placeholder {
   color: #bdbdbd;
   font-size: medium;
+}
+
+.dropbox {
+  /* display: flex; */
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 5%;
+  box-sizing: border-box;
+  /* margin-top: 10%; */
+  border: none;
+  font-size: medium;
+}
+
+ul {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+
+li {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin-top: 0;
+  padding: 0;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+@keyframes slide-fade-in-dropdown-animation {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide-fade-in-dropdown {
+  overflow: hidden;
+}
+
+.slide-fade-in-dropdown > ul {
+  animation: slide-fade-in-dropdown-animation .4s ease;
+}
+
+@keyframes slide-fade-out-dropdown-animation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.slide-fade-out-dropdown {
+  overflow: hidden;
+}
+
+.slide-fade-out-dropdown > ul {
+  animation: slide-fade-out-dropdown-animation 0.4s ease;
+  animation-fill-mode: forwards;
+}
+
+.components-dropdown > ul {
+  position: relative;
+  top: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding-left: 0;
+  list-style: none;
+  margin-left: auto;
 }

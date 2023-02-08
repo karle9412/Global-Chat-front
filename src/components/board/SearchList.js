@@ -1,16 +1,16 @@
 import axios from "axios";
 import { authheader } from "../../service/ApiService";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DetailBoardModal from "./DetailBoardModal";
-import "./boardCss/SearchList.css";
+import "./boardCSS/SearchList.css";
 import Reply from "../Reply/Reply";
 import { Button } from "@material-ui/core";
-import {BsHeart} from "react-icons/bs";
 import {BsHeartFill} from "react-icons/bs";
-import {BsChatText} from "react-icons/bs";
 import {BsThreeDots} from "react-icons/bs";
-import { BoardDropDown } from "../board/DropDown";
+import DropDown from "../board/DropDown";
 import useDropDown from "../../hooks/useDropDown";
+import WebSocketTest, { WebsocketOpen } from "../../service/WebSocketTest";
+
 
 const SearchList = ({
   bno,
@@ -18,18 +18,25 @@ const SearchList = ({
   boardContent,
   boardCategory,
   boardHashTag,
-  boardLike,
   boardWriter,
+  email,
 }) => {
   authheader();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [color, setColor] = useState("#586d9b");
-  const [like, setLike] = useState(boardLike);
-  const [isOpen, isRef, Handler] = useDropDown(false);
-  
+  const [like, setLike] = useState(0);
+  const [user_email, setUser_email] = useState("");
+
+  // 댓글 value
   const [replyVal, setReplyVal] = useState("");
+  // 드롭박스 생성
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
+
+  const stompClient = useRef(null);
+  const [username, setUsername] = useState("");
+  const [connected, setConnected] = useState(false);
 
   const handleComment = (e) => {
     setReplyVal(e.target.value);
@@ -39,6 +46,21 @@ const SearchList = ({
     setModalOpen(!modalOpen);
   };
 
+
+  useEffect(()=> {
+    authheader()
+    axios.get('/user/getintro',)
+    .then(response => {
+        setUser_email(response.data.email);
+    })
+    .catch(error => {
+        alert("유저 정보 불러오기 실패")
+        console.error(error);
+    });
+  
+  }, []);
+
+  // 댓글 등록
   const saveComment = () => {
     axios
       .post(`/reply/register/${bno}`, {
@@ -46,14 +68,16 @@ const SearchList = ({
       })
       .then((res) => {
         console.log(res.data);
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       })
   };
 
+  // 게시글 삭제
   const deleteBoard = () => {
-    if(window.confirm("정말 삭제하시겠습니까?")) {
+    if(window.confirm("게시글을 삭제하시겠습니까?")) {
       axios
         .delete(`/board/delete/${bno}`)
         .then((res) => {
@@ -62,41 +86,93 @@ const SearchList = ({
         .catch((error) => {
           console.log(error);
         });
-        alert("삭제되었습니다.");
+        alert("정상적으로 삭제되었습니다.");
         window.location.reload();
     } else {
       return;
     }
   };
 
+  // 좋아요 증가
   const increaseLike = () => {
     axios
-      .post(`/board/like/increase/${bno}`)
-      .then((res) => {
-        setIsClicked(!isClicked);
-        setColor("#de9b9b");
-        setLike(like + 1);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    .get('/like/check', {
+      params: { bno:bno }
+    })
+    .then((res) => {
+      if(res.data === false) {
+        // 좋아요 증가
+        axios
+          .post(`/like/increase`, {
+            bno: bno,
+          })
+          .then((res) => {
+            setLike(like + 1);
+            setColor("#ff0000");
+            setIsClicked(true);
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        } else {
+        // 좋아요 감소
+          axios
+            .post(`/like/decrease`, {
+              bno: bno,
+            })
+            .then((res) => {
+              setLike(like - 1);
+              setColor("#586d9b");
+              setIsClicked(false);
+              console.log(res.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+        }
+    })
+
+    stompClient.current.send("/app/hello", {}, JSON.stringify({'name': username, 'sendto':'가냐'}));
   };
 
-  const decreaseLike = () => {
+
+   useEffect(() => {
+    //좋아요 아이콘을 유지하기 위해 한번 더 호출
     axios
-      .post(`/board/like/decrease/${bno}`)
-      .then((res) => {
-        setIsClicked(!isClicked);
+    .get(`/like/check`, {
+      params: {bno: bno}
+    })
+    .then((res)=> {
+      if(res.data === true) {
+        setColor("#ff0000");
+        setIsClicked(true);
+      } else {
         setColor("#586d9b");
-        setLike(like - 1);
-        console.log(res.data)
+        setIsClicked(false);
+      }
+    })
+    .catch((error) => {
+      console.log(error); 
+    })
+    
+    // 좋아요 갯수 호출
+    axios
+      .get(`/like/count`, {
+        params: {bno: bno}
+      })
+      .then((res) => {
+        
+        setLike(res.data);
+        
       })
       .catch((error) => {
         console.log(error);
-      });
-  };
+      })
+      WebsocketOpen(setConnected, stompClient, username)
+  }, []);
 
+  // board detail
   useEffect(() => {
     axios
       .get(`/board/detail/${bno}`)
@@ -107,52 +183,34 @@ const SearchList = ({
       });
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(`/board/like/get/${bno}/`)
-      .then((res) => {
-        if(res.data.boardLike > 0){
-          setIsClicked(true);
-          setColor("#de9b9b");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  }, []);
-
- useEffect(() => {
-  if(color === "#de9b9b" && isClicked === true){
-    setColor("#de9b9b");
-  }
- }, []);
-
+ 
   return (
     <div className="searchList">
       {/* 클릭시 자세히 보기 모달창 */}
-      <DetailBoardModal open={modalOpen} close={isModal} header="상세보기" bno={bno} boardContent={boardContent}>
+      <DetailBoardModal open={modalOpen} close={isModal} header="상세보기" bno={bno} boardContent={boardContent} email={email}>
         {/* 모든 댓글 */}
         <div className="infoInModal">
           <div className="md-first-tab">
             <div className="md-username">{boardWriter}</div>
             <div className="md-date"> •{createdDate}</div>
-            <div ref={isRef}>
-              <BsThreeDots className="md-dotIcon" size={20} onClick={Handler} />
-            </div>
-            <ul>
-            {isOpen && <BoardDropDown className="viewDropDown" deleteBoard={deleteBoard} bno={bno} />}
-            </ul>
+            <BsThreeDots className="md-dotIcon" size={20} onClick={e => setDropdownVisibility(!dropdownVisibility)} />
+              <DropDown visibility={dropdownVisibility}>
+                <ul>
+                  <li onClick={deleteBoard}>삭제</li>
+                  <li>신고</li>
+                </ul>
+              </DropDown>
           </div>
           <div className="md-categoty">{boardCategory}</div>
           <div className="md-inContent">{boardContent}</div>
           <div className="md-hashtag">{boardHashTag}</div>
           <div className="md-like">
-            {isClicked ? <BsHeartFill onClick={decreaseLike} style={{color: color}}/> : <BsHeartFill onClick={increaseLike} style={{color: color}}/>}
+            {isClicked ? <BsHeartFill onClick={increaseLike} style={{color: color}}/> : <BsHeartFill onClick={increaseLike} style={{color: color}}/>}
             {like}
           </div>
         </div>
         <hr />
-        <Reply bno={bno} />
+        <Reply bno={bno} check={"1"}/>
       </DetailBoardModal>
 
       {/* 게시판 기본 리스트 */}
@@ -161,10 +219,15 @@ const SearchList = ({
         <div className="first-tab">
           <div className="username">{boardWriter}</div>
           <div className="date"> •{createdDate}</div>
-          <BsThreeDots className="dotIcon" size={20} onClick={Handler} ref={isRef}/>
-          <ul>
-            {isOpen && <BoardDropDown className="viewDropDown" deleteBoard={deleteBoard} bno={bno} />}
-          </ul>
+          <div className="dropbox">
+            <BsThreeDots className="md-dotIcon" size={20} onClick={e => setDropdownVisibility(!dropdownVisibility)} />
+            <DropDown className="drops" visibility={dropdownVisibility}>
+              <ul>
+                <li onClick={deleteBoard}>삭제</li>
+                <li>신고</li>
+              </ul>
+            </DropDown>
+          </div>
         </div>
         <div className="categoty">
           <Button>{boardCategory}</Button>
@@ -172,18 +235,17 @@ const SearchList = ({
         <div className="inContent" onClick={isModal}>{boardContent}</div>
         <div className="hashtag">{boardHashTag}</div>
         <div className="like">
-          {isClicked ? <BsHeartFill onClick={decreaseLike} style={{color: color}} size={20}/> : <BsHeartFill onClick={increaseLike} style={{color: color}} size={20}/>}
+          {isClicked ? <BsHeartFill onClick={increaseLike} style={{color: color}}/> : <BsHeartFill onClick={increaseLike} style={{color: color}}/>}
           {like}
         </div>
       </div>
       <div className="replyInfo">
-        <Reply bno={bno} />
+        <Reply bno={bno} check={"2"}/>
       </div>
       <div className="replyBar">
         <input className="inputReply" type="text" placeholder="댓글 달기" value={replyVal} onChange={handleComment}/>
         {replyVal.length > 0 ? <label className="replyBtn" onClick={saveComment}>작성</label> : null}
       </div>
-      <hr />
     </div>
         
   );

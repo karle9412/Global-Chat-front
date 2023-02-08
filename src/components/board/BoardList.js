@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useInView } from "react-intersection-observer";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import SearchList from "./SearchList";
-import "./boardCss/BoardList.css";
+import "./boardCSS/BoardList.css";
 import { authheader } from "../../service/ApiService";
 import useIntersection from "../../hooks/useIntersection";
 
@@ -21,21 +20,25 @@ const BoardList = () => {
     await axios
       .get(`/board/list/${page}`)
       .then((res) => {
+        if(res.data.length !== 0) {
         setItems((prevState) => [...prevState, ...res.data]);
-      })
-      .catch((error) => {
+        console.log(res.data); 
+      } else if(res.data.body == "0" ){
         setPage(0);
-      });
+      } else {
+        setItems([]);
+      }
+      })
     setLoading(false);
   }, [page]);
 
 
   const setObservationTarget = useIntersection(getItems);
 
-
   return (
     <div className="boardList">
       <div className="content">
+        {items.length === 0 && page === 0? <div className="boardLabelState">새로운 게시글을 작성해보세요!</div> : null}
         {items.map((item, idx) => (
           <React.Fragment key={idx}>
             <SearchList key={item.bno} {...item} />

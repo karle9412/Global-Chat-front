@@ -1,0 +1,122 @@
+header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90px;
+    background-color: white;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.tab1 {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    justify-content: center;
+    
+}
+
+.tab2 {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.tab3 {
+    top: 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15%;
+    transition: all 1s;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    padding: 2rem;
+    color: #273e6e;
+    cursor: pointer;
+
+}
+  
+  ul {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow: auto;
+    
+  }
+  
+  
+  li {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    float: right;
+    margin-top: 0;
+    padding: 0;
+    margin-left: auto;
+    cursor: pointer;
+  }
+
+  .components-dropdown > ul {
+    position: relative;
+    top: 5px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    padding-left: 0;
+    list-style: none;
+    margin-left: auto;
+  }
+
+  @keyframes slide-fade-in-dropdown-animation {
+    0% {
+      transform: translateY(-100%);
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .slide-fade-in-dropdown {
+    overflow: hidden;
+  }
+  
+  .slide-fade-in-dropdown > ul {
+    animation: slide-fade-in-dropdown-animation .4s ease;
+  }
+  
+  @keyframes slide-fade-out-dropdown-animation {
+    0% {
+      transform: translateY(0);
+    }
+  
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+  
+  .slide-fade-out-dropdown {
+    overflow: hidden;
+  }
+  
+  .slide-fade-out-dropdown > ul {
+    animation: slide-fade-out-dropdown-animation 0.4s ease;
+    animation-fill-mode: forwards;
+  }
+
+.dropdown-box{
+  display:block;
+  max-height: 88px;
+  max-width: 88px;
+  font-size: 14px;
+}

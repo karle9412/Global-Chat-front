@@ -1,15 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import "./boardCss/UpdateModal.css";
+import "./boardCSS/UpdateModal.css";
+import { authheader } from "../../service/ApiService";
 
 const UpdateModal = (props) => {
-  const { open, close, header, bno } = props;
+  const { open, close, header, bno, email } = props;
 
   const [boardContent, setBoardContent] = useState(props.boardContent);
+  const [user_email, setUser_email] = useState("");
 
   const handleChange = (e) => {
     setBoardContent(e.target.value);
   };
+
+  useEffect(()=> {
+    authheader()
+    axios.get('/user/getintro',)
+    .then(response => {
+        setUser_email(response.data.email)
+        console.log(response)
+    })
+    .catch(error => {
+        alert("유저 정보 불러오기 실패")
+        console.error(error);
+    });
+  
+  }, [])
 
   const handleUpdate = () => {
       axios

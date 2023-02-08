@@ -1,23 +1,27 @@
-import "../board/boardCss/DropDown.css";
+import React from 'react';
+import './boardCSS/DropDown.css';
 
-export const BoardDropDown = ({deleteBoard, bno}) => {
+const DropDown = props => {
+    const [visibilityAnimation, setVisibilityAnimation] = React.useState(false);
+    const [repeat, setRepeat] = React.useState(null);
+
+    React.useEffect(() => {
+        if (props.visibility) {
+            clearTimeout(repeat);
+            setRepeat(null);
+            setVisibilityAnimation(true);
+        } else {
+            setRepeat(setTimeout(() => {
+                setVisibilityAnimation(false);
+            }, 400));
+        }
+    }, [props.visibility]);
 
     return (
-        <div className="boardDropDown">
-                <li onClick={deleteBoard}>삭제</li>
-        </div>
-    )
-
-};
-
-
-
-export const HeaderDropDown = () => {
-    return (
-        <div className="dropdown">
-            <li>마이페이지</li>
-            <li>설정</li>
-            <li>로그아웃</li>
-        </div>    
+        <article className={`components-dropdown ${props.visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}>
+            { visibilityAnimation && props.children }
+        </article>
     )
 };
+
+export default DropDown;
