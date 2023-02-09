@@ -3,18 +3,19 @@ import './boardCSS/DropDown.css';
 
 const DropDown = props => {
     const [visibilityAnimation, setVisibilityAnimation] = React.useState(false);
-    const [repeat, setRepeat] = React.useState(null);
-
+    
     React.useEffect(() => {
+        let repeat = null;
         if (props.visibility) {
             clearTimeout(repeat);
-            setRepeat(null);
+            repeat = null;
             setVisibilityAnimation(true);
         } else {
-            setRepeat(setTimeout(() => {
+            repeat = setTimeout(() => {
                 setVisibilityAnimation(false);
-            }, 400));
+            }, 400);
         }
+
     }, [props.visibility]);
 
     return (

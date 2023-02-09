@@ -54,18 +54,6 @@ header {
     overflow: auto;
     
   }
-  
-  
-  li {
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    float: right;
-    margin-top: 0;
-    padding: 0;
-    margin-left: auto;
-    cursor: pointer;
-  }
 
   .components-dropdown > ul {
     position: relative;

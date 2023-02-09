@@ -31,7 +31,7 @@ const Random = () => {
                 roomid:roomid}
             }).then(response => {
               setStatus(response.data)
-              if(response.data == "match")
+              if(response.data === "match")
               {console.log("매칭됨")
               
               // var chatMessage = {
@@ -64,7 +64,7 @@ const Random = () => {
         alert("요기요")
         console.error(error);
     });
-    }, [userData.username]);
+    }, [userData]);
 
     //채팅 보내기
     const sendMessage = (event) => {
@@ -74,7 +74,7 @@ const Random = () => {
             msg:userData.message,
             status: "MESSAGE"
           };
-        if(chatMessage.msg == ""){
+        if(chatMessage.msg === ""){
           alert("채팅을 입력해주세요")
           event.preventDefault();
           return false;
@@ -96,7 +96,7 @@ const Random = () => {
           setRoomid(response.data.roomid)
           connect(response.data.roomid)
           
-        if(response.data.status == "match"){
+        if(response.data.status === "match"){
           var chatMessage = {
             user1: "admin",
             roomid:roomid,
@@ -172,7 +172,7 @@ const msghandler= (event) => {
     <div className='back' >
       <Header/>
         {/* 매치 */}
-      { status == "match" ? (
+      { status === "match" ? (
         <div id="contentWrap">
     <div id="contentCover">
         <div id="chatWrap">
@@ -184,14 +184,14 @@ const msghandler= (event) => {
             <div id="chatLog">
 
             {messages.map((chatMessage, index) => (
-               <li key={index}>
-               {chatMessage.user1 == "admin"? ( 
+               <li key={index} className="chat-li">
+               {chatMessage.user1 === "admin"? ( 
                <div>
                 <span class="msg">{chatMessage.msg} </span>
                 <span><button type="submit" onClick={registerUser}> 새로운 대화상대찾기 </button></span>
                 
                </div> 
-               ) : chatMessage.user1 != userData.username? (
+               ) : chatMessage.user1 !== userData.username? (
                   <div class="anotherMsg">
                   <span class="anotherName">상대방</span>
                   <span class="msg">{chatMessage.msg}</span>
@@ -215,7 +215,7 @@ const msghandler= (event) => {
     </div>
 </div>
         // 랜덤챗버튼
-      ) : status == "ready"? (
+      ) : status === "ready"? (
         <div>
           <button className='chatstartButton' type="button" onClick={registerUser}>
             랜덤챗 시작

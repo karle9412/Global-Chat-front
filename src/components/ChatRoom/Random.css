@@ -25,6 +25,15 @@
     height: 50px;
    
 }
+.chat-li {
+    display: block;
+    padding: 5px;
+    color: #000000;
+    font-size: 14px;
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+  }
 
 .chatstartButton {
     
@@ -61,10 +70,10 @@
 }
 
 
-#contentWrap{
+/* #contentWrap{
     
-    /* height: 200px; */
-}
+    height: 200px;
+} */
 
 #chatWrap {
     width: 600px;

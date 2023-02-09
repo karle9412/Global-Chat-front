@@ -11,6 +11,7 @@ import UserImg from '../Reply/UserImg';
 
 var stompClient = null;
 const ChatRoom = () => {
+  const [firstTab, setFirstTab] = useState('');
   const [privateChats, setPrivateChats] = useState(new Map());
   const [userList, setUserList] = useState([]);
   const [userData, setUserData] = useState({
@@ -22,6 +23,33 @@ const ChatRoom = () => {
 
   const [tab, setTab] = useState('')
 
+  useEffect(()=>{
+    if(!privateChats.size > 0){
+    for (let index = 0; index < userList.length; index++) {
+
+      const othername = userList[index].requsername
+
+      axios.get('/randomchat/message', {
+        params: {
+          otherName : othername
+        }
+      })
+      .then(res => {
+        const chatContent = res.data
+        console.log(chatContent)
+        privateChats.set(othername, res.data)
+        setPrivateChats(privateChats)
+      })
+      .catch(res=>{
+        console.log(res)
+      })
+    }
+  }
+    
+  },[userList, privateChats])
+
+  
+
 
   //친구목록 불러오기
   useEffect(() => {
@@ -30,11 +58,7 @@ const ChatRoom = () => {
       .then(res => {
         console.log("친구목록", res.data)
         setUserList(res.data)
-        setTab(res.data[0].requsername)
-        for (let index = 0; index < res.data.length; index++) {
-          privateChats.set(res.data[index].requsername, [])
-          setPrivateChats(privateChats)
-        }
+        setFirstTab(res.data[0].requsername)
       })
 
     // 내정보
@@ -42,7 +66,7 @@ const ChatRoom = () => {
       .then(res => {
         setUserData({ ...userData, username: res.data.username })
       })
-  }, [userData.username])
+  }, [userData])
 
 
   //소켓 연결
@@ -113,6 +137,7 @@ const ChatRoom = () => {
 
   const StartChat = () => {
     connect();
+    setTab(firstTab);
   }
 
 
@@ -129,7 +154,6 @@ const ChatRoom = () => {
 
                 {userList.length > 0 && userList.map((user) => (
                   <div key={user.id} id="roomSelect" onClick={() => setTab(user.requsername)}>
-
                     <div className="roomEl active">
                       <div className="friend-tab-img-box">
                         <UserImg email={user.requireemail} />
@@ -137,7 +161,6 @@ const ChatRoom = () => {
                       <div className="friend-tab-name-box">
                         {user.requsername}
                       </div>
-
                     </div>
                   </div>
                 ))}
@@ -149,8 +172,8 @@ const ChatRoom = () => {
                 {tab !== 'check' &&
                   [...privateChats.get(tab)].map((chat, index) => {
                     return (
-                      <li key={index}>
-                        {chat.senderName != userData.username ? (
+                      <li key={index} className="chat-li">
+                        {chat.senderName !== userData.username ? (
                           <div className='anotherMsg'>
                             <span className='anotherName'>{chat.senderName}</span>
                             <span className='msg'>{chat.message}</span>

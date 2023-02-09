@@ -6,6 +6,8 @@ import './friendsCSS/Recommend.css';
 import UserName from "./UserName";
 
 const RecommendFriends = () => {
+  console.log("확인 중")
+  
 
   const [favoriteList, setFavoriteList] = useState([]);
   
