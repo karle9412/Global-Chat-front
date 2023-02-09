@@ -1,3 +1,7 @@
+article {
+  text-align: right;
+}
+
 .components-dropdown > ul {
     position: relative;
     top: 5px;

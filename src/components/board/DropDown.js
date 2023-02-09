@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import './boardCSS/DropDown.css';
 
 const DropDown = props => {
-    const [visibilityAnimation, setVisibilityAnimation] = React.useState(false);
-    
-    React.useEffect(() => {
-        let repeat = null;
+    const [visibilityAnimation, setVisibilityAnimation] = useState(false);
+    const [repeat, setRepeat] = useState(null);
+
+    useEffect(() => {
         if (props.visibility) {
             clearTimeout(repeat);
-            repeat = null;
+            setRepeat(null);
             setVisibilityAnimation(true);
         } else {
-            repeat = setTimeout(() => {
-                setVisibilityAnimation(false);
-            }, 400);
+            setRepeat(
+                setTimeout(() => {
+                    setVisibilityAnimation(false);
+                }, 400)
+            );
         }
-
     }, [props.visibility]);
 
     return (
-        <article className={`components-dropdown ${props.visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}>
-            { visibilityAnimation && props.children }
+        <article
+            className={`components-dropdown ${props.visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}>
+            {visibilityAnimation && props.children}
         </article>
     )
 };

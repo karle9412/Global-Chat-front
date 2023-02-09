@@ -7,6 +7,7 @@ const FriendsList = (props) => {
   const [isUnfollowClicked, setIsUnfollowClicked] = useState(false);
   const [isBlockClicked, setIsBlockClicked] = useState(false);
 
+  //차단
   const block = () => {
     axios
       .put(`/friendlist/block`, {
@@ -14,13 +15,10 @@ const FriendsList = (props) => {
       })
       .then((res) => {
         setIsBlockClicked(true);
-        console.log(res.data);
       })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
+  //언팔로우, 차단해제
   const unfollowAndBlockCancel = () => {
     axios
       .delete(`/friendlist/block`, {
@@ -28,14 +26,10 @@ const FriendsList = (props) => {
       })
       .then((res) => {
         setIsUnfollowClicked(true);
-        console.log(res.data);
       })
-      .catch((error) => {
-        console.log(requireemail);
-        console.log(error);
-      });
   };
 
+  //팔로우
   const follow = () => {
     axios
       .post(`/friendlist/request`, {
@@ -44,26 +38,16 @@ const FriendsList = (props) => {
       })
       .then((res) => {
         setIsUnfollowClicked(false);
-        console.log(res.data);
       })
-      .catch((error) => {
-        console.log(error);
-      });
   };
-
-
-
 
   return (
     <div>
-      <div></div>
-
       <div className="friendsContent-tab">
         <div className="username">{requsername}</div>
 
         <div className="btn_tab">
-        
-        {  isUnfollowClicked ? (
+          {isUnfollowClicked ? (
             <button className="followBtn" onClick={follow}>
               팔로우
             </button>
@@ -83,8 +67,7 @@ const FriendsList = (props) => {
             <button className="blockBtn" onClick={block}>
               차단
             </button>
-          )
-          }
+          )}
         </div>
       </div>
     </div>

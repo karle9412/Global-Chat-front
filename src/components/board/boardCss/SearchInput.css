@@ -4,7 +4,6 @@
     justify-content: center;
 }
 
-
 .inputBox {
     position: relative;
 }
@@ -15,7 +14,6 @@
     border-radius: 20px;
 }
 
-
 .btn {
     position: absolute;
     align-items: center;
@@ -24,4 +22,3 @@
     right: 10px;
     cursor: pointer;
 }
-
