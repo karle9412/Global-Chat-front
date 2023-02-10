@@ -27,6 +27,23 @@ const RequestFriendsList = (props) => {
     WebsocketOpen(setConnected, stompClient, username)
   }, []);
 
+  // 유저 정보 불러오기
+  useEffect(() => {
+    authheader();
+    axios
+      .get("/user/getintro")
+      .then((response) => {
+        setUsername(response.data.username);
+      })
+      .catch((error) => {
+        alert("유저 정보 불러오기 실패");
+        console.error(error);
+      });
+
+    WebsocketOpen(setConnected, stompClient, username);
+  }, []);
+
+  // 차단
   const block = () => {
     axios
       .put(`/friendlist/block`, {
@@ -41,6 +58,7 @@ const RequestFriendsList = (props) => {
       });
   };
 
+  // 언팔로우 및 차단 취소
   const unfollowAndBlockCancel = () => {
     axios
       .delete(`/friendlist/block`, {
@@ -56,6 +74,7 @@ const RequestFriendsList = (props) => {
       });
   };
 
+  // 팔로우 요청
   const follow = () => {
     axios
       .post(`/friendlist/request`, {
@@ -72,17 +91,18 @@ const RequestFriendsList = (props) => {
       });
   };
 
-
   return (
     <div>
       <div></div>
 
       <div className="friendsContent-tab">
         <div className="username">{requsername}</div>
-        <div className="state"> {isRequest ? " • 팔로우 요청중..." : null} </div>
+        <div className="state">
+          {" "}
+          {isRequest ? " • 팔로우 요청중..." : null}{" "}
+        </div>
         <div className="btn_tab">
-        
-        {  isUnfollowClicked ? (
+          {isUnfollowClicked ? (
             <button className="followBtn" onClick={follow}>
               팔로우 요청
             </button>
@@ -102,8 +122,7 @@ const RequestFriendsList = (props) => {
             <button className="blockBtn" onClick={block}>
               차단
             </button>
-          )
-          }
+          )}
         </div>
       </div>
     </div>

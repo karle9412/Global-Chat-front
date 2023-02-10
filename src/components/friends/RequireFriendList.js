@@ -28,48 +28,28 @@ const RequireFriendsList = (props) => {
     WebsocketOpen(setConnected, stompClient, username)
   }, []);
 
-  const block = () => {
+  // 유저 정보 불러오기
+  useEffect(() => {
+    authheader();
     axios
-      .put(`/friendlist/block`, {
-        params: { requireemail: requireemail },
+      .get("/user/getintro")
+      .then((response) => {
+        setUsername(response.data.username);
       })
-      .then((res) => {
-        setIsBlockClicked(true);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    WebsocketOpen(setConnected, stompClient, username);
+  }, []);
 
-  const unfollowAndBlockCancel = () => {
-    axios
-      .delete(`/friendlist/block`, {
-        params: { oppemail: requireemail },
-      })
-      .then((res) => {
-        setIsUnfollowClicked(true);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(requireemail);
-        console.log(error);
-      });
-  };
-
+  // 팔로우 승낙
   const follow = () => {
     axios
-      .put(`/friendlist/consent`, {
-        params: { oppemail: requireemail },
+      .put("/friendlist/consent", {
+        requireemail: requireemail,
       })
       .then((res) => {
-        setIsUnfollowClicked(false);
+        setIsUnfollowClicked(!isUnfollowClicked);
         console.log(res.data);
         stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':requireemail,'cont':username+"님과 팔로우가 됐어요!"}));
       })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   return (
@@ -78,7 +58,6 @@ const RequireFriendsList = (props) => {
 
       <div className="friendsContent-tab">
         <div className="username">{requsername}</div>
-
         <div className="btn_tab">
           {isUnfollowClicked === false ? (
             <button className="followBtn" onClick={follow}>

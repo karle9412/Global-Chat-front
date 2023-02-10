@@ -8,14 +8,12 @@ import Header from '../Header/Header';
 import './boardCSS/Board.css';
 import RecommendFriends from '../friends/RecommendFriends';
 
-
 const Board = () => {
 
     authheader();
 
     const [searchItem, setSearchItem] = useState("");
     const [searchDataList, setSearchDataList] = useState([]);
-
 
     const handleChange = (e) => {
         setSearchItem(e.target.value);
@@ -27,11 +25,7 @@ const Board = () => {
                 .then((res) => {
                     setSearchDataList(res.data);
                 })
-                .catch((error) => {
-                    console.log(error)
-                })
         } else {
-
         }
     };
 
@@ -49,27 +43,27 @@ const Board = () => {
         <div className="Board">
             <header>
                 <Header>
-                    <SearchInput defaultValue={searchItem} onChange={handleChange} activeEnter={activeEnter} />
+                    <SearchInput
+                        value={searchItem}
+                        onChange={handleChange}
+                        activeEnter={activeEnter}
+                        handleClick={handleClick}
+                    />
                 </Header>
             </header>
 
-        
-        <RecommendFriends/>
+            <RecommendFriends />
 
             {/* 게시글 목록 */}
             <div className='showList'>
                 {searchDataList.length > 0 ?
                     <SearchBoardList
-                        searchDataList={searchDataList}
-                        searchItem={searchItem} />
+                        searchDataList={searchDataList} />
                     :
                     <BoardList />}
             </div>
-
-
         </div>
     );
 }
-
 
 export default Board;

@@ -45,6 +45,8 @@
     /* width: 100%; */
     border-bottom: 1px solid #dee2e6;
     border-top: 1px solid #dee2e6;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
   }
   .modal > section > footer {
     padding: 12px 16px;
@@ -93,3 +95,4 @@
       opacity: 1;
     }
   }
+  

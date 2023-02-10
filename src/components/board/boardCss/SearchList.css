@@ -1,9 +1,9 @@
-
 .searchList {
   border: 1px solid #e6e6e6;
 }
 
-.boardInfo, .infoInModal {
+.boardInfo,
+ .infoInModal {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,7 +19,6 @@ hr {
   margin-top: 10%;
   margin-bottom: 20%;
 }
-
 
 .first-tab,
 .md-first-tab {
@@ -56,7 +55,6 @@ hr {
   margin-left: auto;
   cursor: pointer;
 }
-
 
 .category,
 .md-category {
@@ -140,7 +138,8 @@ hr {
   font-size: medium;
 }
 
-.dropbox {
+.dropbox,
+.md-dropbox {
   /* display: flex; */
   top: 0;
   align-items: center;
@@ -151,59 +150,22 @@ hr {
   /* margin-top: 10%; */
   border: none;
   font-size: medium;
+  max-height: 20px;
 }
 
-ul {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  flex-wrap: wrap;
-  overflow: auto;
+.dropbox,
+.md-dropbox > li {
+  cursor: pointer;
 }
 
-@keyframes slide-fade-in-dropdown-animation {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
+.categoty,
+.md-category {
+  margin-right: auto;
+  font-size: medium;
 }
 
-.slide-fade-in-dropdown {
-  overflow: hidden;
-}
-
-.slide-fade-in-dropdown > ul {
-  animation: slide-fade-in-dropdown-animation .4s ease;
-}
-
-@keyframes slide-fade-out-dropdown-animation {
-  0% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-.slide-fade-out-dropdown {
-  overflow: hidden;
-}
-
-.slide-fade-out-dropdown > ul {
-  animation: slide-fade-out-dropdown-animation 0.4s ease;
-  animation-fill-mode: forwards;
-}
-
-.components-dropdown > ul {
-  position: relative;
-  top: 5px;
-  margin-top: 0;
-  margin-bottom: 5px;
-  padding-left: 0;
-  list-style: none;
-  margin-left: auto;
+.moreReply {
+  cursor: pointer;
+  color: #bbbbbb;
+  margin-top: 1rem;
 }

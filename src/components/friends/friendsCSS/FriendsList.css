@@ -4,10 +4,11 @@
     align-items: center;
 }
 
-.friendsContent-tab div, button {
+.friendsContent-tab div,
+button {
     display: inline;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     align-items: center;
 }
 
@@ -16,7 +17,9 @@
     padding: 8px;
 }
 
-.followingCancelBtn, .blockBtn, .followBtn {
+.followingCancelBtn,
+.blockBtn,
+.followBtn {
     cursor: pointer;
 }
 
@@ -28,4 +31,3 @@
 .labelState {
     color: #c0c0c0;
 }
-

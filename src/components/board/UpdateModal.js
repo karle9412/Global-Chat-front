@@ -13,33 +13,27 @@ const UpdateModal = (props) => {
     setBoardContent(e.target.value);
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     authheader()
-    axios.get('/user/getintro',)
-    .then(response => {
-        setUser_email(response.data.email)
-        console.log(response)
-    })
-    .catch(error => {
-        alert("유저 정보 불러오기 실패")
-        console.error(error);
-    });
-  
+    axios.get('/user/getintro')
+      .then(response => {
+        setUser_email(response.data.email);
+      })
   }, [])
 
   const handleUpdate = () => {
-      axios
-        .put(`/board/update/${bno}`, {
-          boardContent: boardContent
-        })
-        .then((res) => {
-          console.log(res.data);
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+    axios.put(`/board/update/${bno}`, {
+      boardContent: boardContent
+    })
+      .then((res) => {
+        window.location.reload();
+      })
   };
+
+  //외부스크롤 방지
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "unset";
+  }, [open]);
 
 
   return (
@@ -54,7 +48,10 @@ const UpdateModal = (props) => {
           </header>
           <main>
             <div className="modalInfo">
-                <textarea className="modalContent" defaultValue={boardContent} onChange={handleChange} />
+              <textarea
+                className="modalContent"
+                defaultValue={boardContent}
+                onChange={handleChange} />
             </div>
           </main>
           <footer>

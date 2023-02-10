@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import { BsFillHouseDoorFill } from "react-icons/bs";
@@ -13,15 +13,15 @@ import DropDown from "../board/DropDown";
 import { signout } from "../../service/ApiService";
 import Friends from "../friends/Friends";
 import FriendsModal from "../friends/FriendsModal";
-import DropDown2 from "../board/DropDown2";
+import axios from "axios";
 
 export default function Header(props) {
   const navigate = useNavigate();
 
   const [writeModalOpen, setWrtieModalOpen] = useState(false);
   const [friendsModalOpen, setFriendsModalOpen] = useState(false);
-
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
+  const [boardWriter, setBoardWriter] = useState("");
 
   const isWriteModal = () => {
     setWrtieModalOpen(!writeModalOpen);
@@ -29,10 +29,22 @@ export default function Header(props) {
   const isFriendsModal = () => {
     setFriendsModalOpen(!friendsModalOpen);
   };
-
   const logout = () => {
     signout();
   };
+
+  useEffect(()=> {
+    axios.get('/user/getintro',)
+    .then(response => {
+        setBoardWriter(response.data.username)
+        console.log(response)
+    })
+    .catch(error => {
+        alert("유저 정보 불러오기 실패")
+        console.error(error);
+    });
+  
+  }, [])
 
   return (
     <>
@@ -74,10 +86,15 @@ export default function Header(props) {
             size={40}
             onClick={() => {
               navigate("/random");
-            }} />
+            }}
+          />
 
           <BsPeopleFill className="icon" size={40} onClick={isFriendsModal} />
-          <FriendsModal open={friendsModalOpen} close={isFriendsModal} header="친구">
+          <FriendsModal
+            open={friendsModalOpen}
+            close={isFriendsModal}
+            header="친구"
+          >
             <Friends />
           </FriendsModal>
 
@@ -91,7 +108,7 @@ export default function Header(props) {
 
             {/* <DropDown2 visibility={dropdownVisibility} /> */}
 
-            <DropDown visibility={dropdownVisibility}>
+            <DropDown className="drops" visibility={dropdownVisibility}>
               <ul>
                 <li
                   onClick={() => {
