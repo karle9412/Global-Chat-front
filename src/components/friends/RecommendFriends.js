@@ -13,13 +13,14 @@ const RecommendFriends = () => {
   
 
   authheader()
-
   useEffect(() => {
     axios.put('/favoriteList/algorithm')
     .then(res =>{
       console.log('성공했냐')
     })
+  }, [])
 
+  useEffect(() => {
     axios.get('/favoriteList/view')
       .then(res => {
         if (res.data != null) {
