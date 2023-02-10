@@ -4,7 +4,7 @@ import Home from './components/Home';
 import Profile from './components/userinfo/Profile';
 import ChatRoom from './components/ChatRoom/ChatRoom';
 import Registry from './components/Registry/Registry';
-import Interest from './components/Interest';
+import Interest from './components/userinfo/Interest';
 import GoogleLoginButton from './components/login/GoogleLoginButton'
 import Board from './components/board/Board';
 import Login from './components/login/Login';
@@ -15,6 +15,8 @@ import Alarm from './components/userinfo/Alarm';
 import BlockList from './components/userinfo/BlockList';
 import Changeinfo from './components/userinfo/Changeinfo';
 import Random from './components/ChatRoom/Random';
+import Changepw2 from './components/login/ChangePw2';
+
 
 
 const App = () => {
@@ -38,6 +40,7 @@ const App = () => {
      <Route path='/blocklist' element={<BlockList/>}/>
      <Route path='/changeinfo' element={<Changeinfo />} />
      <Route path='/random' element={<Random />}/>
+     <Route path='/changepw2' element={<Changepw2 />}/>
 
    </Routes>
    </BrowserRouter>

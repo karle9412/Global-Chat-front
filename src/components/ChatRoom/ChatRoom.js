@@ -66,7 +66,7 @@ const ChatRoom = () => {
       .then(res => {
         setUserData({ ...userData, username: res.data.username })
       })
-  }, [userData])
+  }, [userData.username])
 
 
   //소켓 연결
@@ -209,7 +209,6 @@ const ChatRoom = () => {
 }
 
 export default ChatRoom
-
 
 
 

@@ -15,6 +15,11 @@ const RecommendFriends = () => {
   authheader()
 
   useEffect(() => {
+    axios.post('/favoriteList/algorithm')
+    .then(res =>{
+      console.log('성공했냐')
+    })
+
     axios.get('/favoriteList/view')
       .then(res => {
         if (res.data != null) {

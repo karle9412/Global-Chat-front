@@ -1,6 +1,6 @@
 import { Height } from "@material-ui/icons";
 import React, { useState } from "react";
-import usefetch from "../../hooks/usefetch";
+import usefetch from "../../hooks/useAxios";
 import UserImg from "./UserImg";
 import "./reply.css"
 import TextTranslate from "./TextTranslate";

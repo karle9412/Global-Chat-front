@@ -8,8 +8,7 @@ import { Button } from "@material-ui/core";
 import {BsHeartFill} from "react-icons/bs";
 import {BsThreeDots} from "react-icons/bs";
 import DropDown from "../board/DropDown";
-import useDropDown from "../../hooks/useDropDown";
-import WebSocketTest, { WebsocketOpen } from "../../service/WebSocketTest";
+import { WebsocketOpen } from "../../service/WebSocketTest";
 
 
 const SearchList = ({
@@ -52,6 +51,7 @@ const SearchList = ({
     axios.get('/user/getintro',)
     .then(response => {
         setUser_email(response.data.email);
+        setUsername(response.data.username)
     })
     .catch(error => {
         alert("유저 정보 불러오기 실패")
@@ -69,6 +69,7 @@ const SearchList = ({
       .then((res) => {
         console.log(res.data);
         window.location.reload();
+        stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':boardWriter,'cont':username+"님이 댓글을 작성했어요!"}));
       })
       .catch((error) => {
         console.log(error);
@@ -111,6 +112,7 @@ const SearchList = ({
             setColor("#ff0000");
             setIsClicked(true);
             console.log(res.data);
+            stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':boardWriter,'cont':username+"님이 좋아요를 눌렀어요!"}));
           })
           .catch((error) => {
             console.log(error);
@@ -132,8 +134,6 @@ const SearchList = ({
             })
         }
     })
-
-    stompClient.current.send("/app/hello", {}, JSON.stringify({'name': username, 'sendto':'가냐'}));
   };
 
 

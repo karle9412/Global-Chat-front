@@ -1,11 +1,32 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./friendsCSS/FriendsList.css";
+import { WebsocketOpen } from "../../service/WebSocketTest";
+import { authheader } from "../../service/ApiService";
 
 const RequireFriendsList = (props) => {
   const { requsername, requireemail } = props;
   const [isUnfollowClicked, setIsUnfollowClicked] = useState(false);
   const [isBlockClicked, setIsBlockClicked] = useState(false);
+  const stompClient = useRef(null);
+  const [username, setUsername] = useState("");
+  const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    authheader()
+    axios.get('/user/getintro',)
+    .then(response => {
+       
+        setUsername(response.data.username)
+    })
+    .catch(error => {
+        alert("유저 정보 불러오기 실패")
+        console.error(error);
+    });
+    
+
+    WebsocketOpen(setConnected, stompClient, username)
+  }, []);
 
   const block = () => {
     axios
@@ -44,6 +65,7 @@ const RequireFriendsList = (props) => {
       .then((res) => {
         setIsUnfollowClicked(false);
         console.log(res.data);
+        stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':requireemail,'cont':username+"님과 팔로우가 됐어요!"}));
       })
       .catch((error) => {
         console.log(error);
@@ -60,7 +82,7 @@ const RequireFriendsList = (props) => {
         <div className="btn_tab">
           {isUnfollowClicked === false ? (
             <button className="followBtn" onClick={follow}>
-              팔로우
+              팔로우 승낙
             </button>
           ) : null}
         </div>

@@ -3,13 +3,15 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PhoneNumber from '../Registry/PhoneNumber';
 import './FindId.css';
+import { useNavigate } from "react-router-dom";
 
 export default function FindPw() {
-
+    const navigate = useNavigate();
     const [inputEmail, setInputEmail] = React.useState('');
     const [inputPhone, setInputPhone] = React.useState('');
     const [inputCknum,setInputCknum] =  React.useState('');
     const [ck,setCk] =  React.useState('');
+    const [ck2,setCk2] =  React.useState('');
 
     useEffect(() => {
         if(inputPhone.length === 10){
@@ -23,25 +25,19 @@ export default function FindPw() {
     
     }, [inputPhone]);
     
- 
-    const findpassowrd = () =>  { if(ck === "1") {axios.post('auth/updatepassword', 
-    {
-        email: inputEmail
+    const changepw = () =>{
+        if(inputEmail==""){
+            alert("이메일을 입력해주세요")
+        }
+        else if(ck=="1"){
+        navigate("/changepw2",{ state:inputEmail})
+       }else{
+        alert("휴대폰 인증을 완료해주세요")
+        
+       }
+
+      
     }
-    )
-    .then(function (response) {
-        console.log(response)
-        alert("이메일로 임시 비밀번호 발송.")
-        window.location.href = "/login";
-    })
-    .catch(function (error) {
-        console.log(error)
-        alert("이메일을 다시 확인해주세요.");
-    })}
-    
-    else{
-        alert("핸드폰 인증을 완료해 주세요.")
-    }}
     
 
     const sendauth = () =>{axios.post('auth/send-one', 
@@ -53,6 +49,7 @@ export default function FindPw() {
     .then(function (response) {
         console.log(response)
         alert("인증번호 보냄")
+        setCk2("1")
     })
     .catch(function (response) {
        alert("이메일 또는 핸드폰번호를 다시 확인하세요.")
@@ -100,9 +97,6 @@ export default function FindPw() {
                           <PhoneNumber
                           value = {inputPhone}
                           onChange = {(value) => setInputPhone(value)} />
-                            {/* <input className='telBox' type="text" 
-                            placeholder='휴대폰 번호를 입력해주세요.' onChange={(e)=>{setInputPhone(e.target.value)
-                            }} value={inputPhone}></input>    */}
                             <button className='authBtn2' type='button' onClick={sendauth}>인증번호받기</button>                  
                         </div>
 
@@ -118,13 +112,10 @@ export default function FindPw() {
 
 
                         <div>
-                        <button className='authBtn3' type='button' onClick={findpassowrd}>확인</button> 
+                        <button className='authBtn3' type='button' onClick={changepw}>확인</button> 
                         </div>
                        
 
-                        <div className='boxDiv3'>
-                            {/* <Link to='/findPw'>비밀번호 찾기</Link> */}
-                        </div>
                     </div>
             </div>
            

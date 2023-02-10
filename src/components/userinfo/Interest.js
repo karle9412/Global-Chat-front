@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { authheader } from "../service/ApiService";
+import { authheader } from "../../service/ApiService";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export default function Interest() {
 

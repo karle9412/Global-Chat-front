@@ -1,8 +1,8 @@
 import axios from "axios"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { authheader } from "../service/ApiService"
 
-export default function useImg(url){
+export default function useAxios(url){
     const [result, setResult] = useState([]);
     
     authheader()
@@ -12,7 +12,7 @@ export default function useImg(url){
         setResult(result)
     })
     
-    }, [])
+    }, [url])
 
   
   return result
