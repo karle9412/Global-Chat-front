@@ -26,6 +26,7 @@ const SearchList = ({
   const [color, setColor] = useState("#586d9b");
   const [like, setLike] = useState(0);
   const [user_email, setUser_email] = useState("");
+  const [replyCnt, setReplyCnt] = useState(0);
 
   // 댓글 value
   const [replyVal, setReplyVal] = useState("");
@@ -43,6 +44,14 @@ const SearchList = ({
   const isModal = () => {
     setModalOpen(!modalOpen);
   };
+
+  useEffect(() => {
+    axios
+      .get(`/reply/request/${bno}`)
+      .then((res) => {
+        setReplyCnt(res.data);
+      })
+  }, []);
 
   //유저 정보 불러오기
   useEffect(() => {
@@ -258,6 +267,14 @@ const SearchList = ({
           {like}
         </div>
       </div>
+      <Reply bno={bno} check={"2"} user_email={user_email} />
+      <div>
+          {replyCnt.length > 0 ? (
+            <div className="moreReply" onClick={isModal}>
+              댓글 {replyCnt.length}개 모두 보기
+            </div>
+          ) : null}
+        </div>
       <div className="replyBar">
         <input
           className="inputReply"
