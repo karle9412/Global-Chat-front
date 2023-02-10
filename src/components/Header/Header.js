@@ -14,6 +14,7 @@ import { signout } from "../../service/ApiService";
 import Friends from "../friends/Friends";
 import FriendsModal from "../friends/FriendsModal";
 import axios from "axios";
+import WebSocket from "../Websocket"
 
 export default function Header(props) {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default function Header(props) {
   return (
     <>
       <header>
+      <WebSocket/>
         <div className="tab1">
           <BsFillHouseDoorFill
             className="icon"
@@ -63,7 +65,6 @@ export default function Header(props) {
         <div className="tab2">{props.children}</div>
 
         <div className="tab3">
-          <BsFillBellFill className="icon" size={35} />
 
           <BsPencilSquare className="icon" onClick={isWriteModal} size={25} />
 

@@ -1,10 +1,6 @@
 .tabs {
-  /* margin-top: 50px; */
-  /* padding-bottom: 40px; */
   background-color: #fff;
   border: 1px solid #e6e6e6;
-  /* margin: 0 auto; */
-  cursor: move;  
 }
 
 .tabs_item {

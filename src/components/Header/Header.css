@@ -17,14 +17,13 @@ header {
   align-items: center;
   margin-left: 5%;
   justify-content: center;
-
 }
 
 .tab2 {
   padding: 10px;
   display: flex;
   align-items: center;
-  margin-left: 10%;
+  margin-left: 20%;
 }
 
 .tab3 {
@@ -50,4 +49,5 @@ header {
   max-height: 88px;
   max-width: 88px;
   font-size: 14px;
+  cursor: pointer;
 }

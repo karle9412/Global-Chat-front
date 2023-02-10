@@ -13,29 +13,26 @@ const RequireFriendsList = (props) => {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    authheader()
-    axios.get('/user/getintro',)
-    .then(response => {
-       
-        setUsername(response.data.username)
-    })
-    .catch(error => {
-        alert("유저 정보 불러오기 실패")
-        console.error(error);
-    });
-    
-
-    WebsocketOpen(setConnected, stompClient, username)
-  }, []);
-
-  // 유저 정보 불러오기
-  useEffect(() => {
     authheader();
     axios
       .get("/user/getintro")
       .then((response) => {
         setUsername(response.data.username);
       })
+      .catch((error) => {
+        alert("유저 정보 불러오기 실패");
+        console.error(error);
+      });
+
+    WebsocketOpen(setConnected, stompClient, username);
+  }, []);
+
+  // 유저 정보 불러오기
+  useEffect(() => {
+    authheader();
+    axios.get("/user/getintro").then((response) => {
+      setUsername(response.data.username);
+    });
     WebsocketOpen(setConnected, stompClient, username);
   }, []);
 
@@ -48,8 +45,32 @@ const RequireFriendsList = (props) => {
       .then((res) => {
         setIsUnfollowClicked(!isUnfollowClicked);
         console.log(res.data);
-        stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':requireemail,'cont':username+"님과 팔로우가 됐어요!"}));
+        stompClient.current.send(
+          "/app/hello",
+          {},
+          JSON.stringify({
+            sendname: username,
+            receivename: requireemail,
+            cont: username + "님과 팔로우가 됐어요!",
+          })
+        );
+      });
+  };
+
+  // 언팔로우 및 차단 취소
+  const unfollowAndBlockCancel = () => {
+    axios
+      .delete(`/friendlist/block`, {
+        params: { oppemail: requireemail },
       })
+      .then((res) => {
+        setIsUnfollowClicked(true);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(requireemail);
+        console.log(error);
+      });
   };
 
   return (
@@ -63,7 +84,14 @@ const RequireFriendsList = (props) => {
             <button className="followBtn" onClick={follow}>
               팔로우 승낙
             </button>
-          ) : null}
+          ) : (
+            <button
+              className="followingCancelBtn"
+              onClick={unfollowAndBlockCancel}
+            >
+              언팔로우
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -10,7 +10,6 @@ import { BsThreeDots } from "react-icons/bs";
 import DropDown from "../board/DropDown";
 import { WebsocketOpen } from "../../service/WebSocketTest";
 
-
 const SearchList = ({
   bno,
   createdDate,
@@ -47,37 +46,45 @@ const SearchList = ({
 
   //유저 정보 불러오기
   useEffect(() => {
-    authheader()
-    axios.get('/user/getintro',)
-      .then(response => {
+    authheader();
+    axios
+      .get("/user/getintro")
+      .then((response) => {
         setUser_email(response.data.email);
-        setUsername(response.data.username)
-    })
-    .catch(error => {
-        alert("유저 정보 불러오기 실패")
+        setUsername(response.data.username);
+      })
+      .catch((error) => {
+        alert("유저 정보 불러오기 실패");
         console.error(error);
-    });
-  
+      });
   }, []);
 
   // 댓글 등록
   const saveComment = () => {
-    axios.post(`/reply/register/${bno}`, {
-      replyContent: replyVal,
-    })
+    axios
+      .post(`/reply/register/${bno}`, {
+        replyContent: replyVal,
+      })
       .then((res) => {
         window.location.reload();
-        stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':boardWriter,'cont':username+"님이 댓글을 작성했어요!"}));
-      })
+        stompClient.current.send(
+          "/app/hello",
+          {},
+          JSON.stringify({
+            sendname: username,
+            receivename: boardWriter,
+            cont: username + "님이 댓글을 작성했어요!",
+          })
+        );
+      });
   };
 
   // 게시글 삭제
   const deleteBoard = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
-      axios.delete(`/board/delete/${bno}`)
-        .then((res) => {
-          console.log(res.data);
-        })
+      axios.delete(`/board/delete/${bno}`).then((res) => {
+        console.log(res.data);
+      });
       alert("정상적으로 삭제되었습니다.");
       window.location.reload();
     } else {
@@ -87,46 +94,56 @@ const SearchList = ({
 
   // 좋아요 증가
   const increaseLike = () => {
-    axios.get('/like/check', {
-      params: { bno: bno },
-    })
+    axios
+      .get("/like/check", {
+        params: { bno: bno },
+      })
       .then((res) => {
         if (res.data === false) {
           // 좋아요 증가
-          axios.post(`/like/increase`, {
-            bno: bno,
-          })
-          .then((res) => {
-            setLike(like + 1);
-            setColor("#ff0000");
-            setIsClicked(true);
-            console.log(res.data);
-            stompClient.current.send("/app/hello", {}, JSON.stringify({'sendname': username, 'receivename':boardWriter,'cont':username+"님이 좋아요를 눌렀어요!"}));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        
+          axios
+            .post(`/like/increase`, {
+              bno: bno,
+            })
+            .then((res) => {
+              setLike(like + 1);
+              setColor("#ff0000");
+              setIsClicked(true);
+              console.log(res.data);
+              stompClient.current.send(
+                "/app/hello",
+                {},
+                JSON.stringify({
+                  sendname: username,
+                  receivename: boardWriter,
+                  cont: username + "님이 좋아요를 눌렀어요!",
+                })
+              );
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         } else {
           // 좋아요 감소
-          axios.post(`/like/decrease`, {
-            bno: bno,
-          })
+          axios
+            .post(`/like/decrease`, {
+              bno: bno,
+            })
             .then((res) => {
               setLike(like - 1);
               setColor("#586d9b");
               setIsClicked(false);
-            })
+            });
         }
-    })
+      });
   };
-
 
   useEffect(() => {
     //좋아요 아이콘을 유지하기 위해 한번 더 호출
-    axios.get(`/like/check`, {
-      params: { bno: bno }
-    })
+    axios
+      .get(`/like/check`, {
+        params: { bno: bno },
+      })
       .then((res) => {
         if (res.data === true) {
           setColor("#ff0000");
@@ -135,23 +152,23 @@ const SearchList = ({
           setColor("#586d9b");
           setIsClicked(false);
         }
-      })
+      });
 
     // 좋아요 갯수 호출
-    axios.get(`/like/count`, {
-      params: { bno: bno }
-    })
+    axios
+      .get(`/like/count`, {
+        params: { bno: bno },
+      })
       .then((res) => {
         setLike(res.data);
-      })
+      });
 
-    WebsocketOpen(setConnected, stompClient, username)
+    WebsocketOpen(setConnected, stompClient, username);
   }, []);
 
   // board detail
   useEffect(() => {
-    axios.get(`/board/detail/${bno}`)
-      .then((res) => { })
+    axios.get(`/board/detail/${bno}`).then((res) => {});
   }, []);
 
   return (
@@ -177,7 +194,7 @@ const SearchList = ({
               <BsThreeDots
                 className="md-dotIcon"
                 size={20}
-                onClick={e => setDropdownVisibility(!dropdownVisibility)}
+                onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
               />
               <DropDown className="md-drops" visibility={dropdownVisibility}>
                 <ul>
@@ -193,21 +210,16 @@ const SearchList = ({
           <div className="md-inContent">{boardContent}</div>
           <div className="md-hashtag">{boardHashTag}</div>
           <div className="md-like">
-            {isClicked ?
-              (<BsHeartFill
-                onClick={increaseLike}
-                style={{ color: color }}
-              />) :
-              (<BsHeartFill
-                onClick={increaseLike}
-                style={{ color: color }}
-              />)
-            }
+            {isClicked ? (
+              <BsHeartFill onClick={increaseLike} style={{ color: color }} />
+            ) : (
+              <BsHeartFill onClick={increaseLike} style={{ color: color }} />
+            )}
             {like}
           </div>
         </div>
         <hr />
-        <Reply bno={bno} check={"1"} />
+        <Reply bno={bno} check={"1"} user_email={user_email} />
       </DetailBoardModal>
 
       {/* 게시판 기본 리스트 */}
@@ -220,12 +232,9 @@ const SearchList = ({
             <BsThreeDots
               className="md-dotIcon"
               size={20}
-              onClick={e => setDropdownVisibility(!dropdownVisibility)}
+              onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
             />
-            <DropDown
-              className="drops"
-              visibility={dropdownVisibility}
-            >
+            <DropDown className="drops" visibility={dropdownVisibility}>
               <ul>
                 {email === user_email ? (
                   <li onClick={deleteBoard}>삭제</li>
@@ -236,20 +245,16 @@ const SearchList = ({
           </div>
         </div>
         <div className="categoty">{boardCategory}</div>
-        <div className="inContent" onClick={isModal}>{boardContent}</div>
+        <div className="inContent" onClick={isModal}>
+          {boardContent}
+        </div>
         <div className="hashtag">{boardHashTag}</div>
         <div className="like">
-          {isClicked ?
-            (<BsHeartFill
-              onClick={increaseLike}
-              style={{ color: color }}
-            />)
-            :
-            (<BsHeartFill
-              onClick={increaseLike}
-              style={{ color: color }}
-            />)
-          }
+          {isClicked ? (
+            <BsHeartFill onClick={increaseLike} style={{ color: color }} />
+          ) : (
+            <BsHeartFill onClick={increaseLike} style={{ color: color }} />
+          )}
           {like}
         </div>
       </div>

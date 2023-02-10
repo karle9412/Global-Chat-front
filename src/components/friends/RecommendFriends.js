@@ -15,7 +15,7 @@ const RecommendFriends = () => {
   authheader()
 
   useEffect(() => {
-    axios.post('/favoriteList/algorithm')
+    axios.put('/favoriteList/algorithm')
     .then(res =>{
       console.log('성공했냐')
     })

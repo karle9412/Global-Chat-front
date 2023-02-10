@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./boardCSS/Modal.css";
 import UpdateModal from "../board/UpdateModal";
 import { authheader } from "../../service/ApiService";
