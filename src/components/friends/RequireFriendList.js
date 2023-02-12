@@ -84,14 +84,7 @@ const RequireFriendsList = (props) => {
             <button className="followBtn" onClick={follow}>
               팔로우 승낙
             </button>
-          ) : (
-            <button
-              className="followingCancelBtn"
-              onClick={unfollowAndBlockCancel}
-            >
-              언팔로우
-            </button>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
