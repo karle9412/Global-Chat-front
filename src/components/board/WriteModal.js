@@ -28,8 +28,10 @@ const WriteModal = (props) => {
           setValue(res.data);
           window.location.reload();
         })
-    } else {
+    } else if (languageSelect === "") {
       languageSelectFocus.focus();
+    } else if (value === "") {
+      alert("내용을 입력해주세요.");
     }
   };
 
